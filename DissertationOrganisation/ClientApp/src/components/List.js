@@ -22,7 +22,7 @@ import './List.css';
 
 
 const List = (props) => {
-    const { id, name, items } = props;
+    const { id, name, items, needUpdate, currentUpdate} = props;
 
     const [modal, setModal] = useState(false);
     const [title, setTitle] = useState("");
@@ -63,6 +63,7 @@ const List = (props) => {
             })
             .then(setSuccess(true))
             .catch(e => console.log(e));
+        needUpdate(!currentUpdate);
     }
 
 
@@ -83,7 +84,7 @@ const List = (props) => {
                                 </Row>
                                 <Alert colour="sucess" isOpen={success} toggle={onDismiss}> {title} added </Alert>
                                 {items.map(item =>
-                                    <ListItem key={item.id} id={item.id} listId={item.listId} title={item.title} description={item.description} state={item.state} />
+                                    <ListItem key={item.id} id={item.id} listId={item.listId} title={item.title} description={item.description} state={item.state} needUpdate={needUpdate} currentUpdate={currentUpdate} />
                                     )}
                             </CardBody>
                         </Card>
@@ -100,7 +101,7 @@ const List = (props) => {
                                 </FormGroup>
                                 <FormGroup>
                                     <Label>Description</Label>
-                                    <Input type="textarea" name="description" id="exampleText" />
+                                    <Input type="textarea" name="description" id="exampleText" onChange={handleInputChange} />
                                 </FormGroup>
                             </Form>
                         </ModalBody>

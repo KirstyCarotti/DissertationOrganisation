@@ -12,3 +12,15 @@
     background: #6d6464;
     cursor: pointer; 
 }
+
+.editButton {
+    position: relative;
+    left: 5px; 
+    width: 15px;
+    height: 15px;
+}
+
+.editButton :hover {
+    background: #6d6464;
+    cursor: pointer;
+}

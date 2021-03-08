@@ -8,8 +8,7 @@ import './List.css';
 
      const [success, setSuccess] = useState(false);
      const [lists, setLists] = useState([]);
-     const [needUpdate, setNeedUpdate] = useState(undefined);
-
+     const [update, setUpdate] = useState(false);
      useEffect(() => {
          fetch('https://localhost:44388/api/lists',
              {
@@ -26,13 +25,13 @@ import './List.css';
              })
              .catch(e => console.log(e));
 
-    },[lists])
+    },[update])
     
      if (success) {
          return (
              <div>
                  {lists.map(list =>
-                     <List key={list.id} id={list.id} name={list.listName} items={list.listItems} />                            
+                     <List key={list.id} id={list.id} name={list.listName} items={list.listItems} needUpdate={setUpdate} currentUpdate={update} />                            
                  )}
              </div>
          )
