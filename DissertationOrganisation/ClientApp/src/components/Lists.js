@@ -8,6 +8,7 @@ import './List.css';
 
      const [success, setSuccess] = useState(false);
      const [lists, setLists] = useState([]);
+     const [needUpdate, setNeedUpdate] = useState(undefined);
 
      useEffect(() => {
          fetch('https://localhost:44388/api/lists',
@@ -25,7 +26,7 @@ import './List.css';
              })
              .catch(e => console.log(e));
 
-    },[])
+    },[lists])
     
      if (success) {
          return (

@@ -17,5 +17,6 @@ namespace DissertationOrganisation.Services
         
         public bool DeleteList(int id);
         void UpdateListItem(int id, ListItem listItem);
+        object AddListItem(ListItem list);
     }
 }

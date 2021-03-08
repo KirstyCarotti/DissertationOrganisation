@@ -31,13 +31,14 @@ namespace DissertationOrganisation.Controllers
             return Ok(result);
         }
         // POST api/lists
+     */
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] List list)
+        public async Task<IActionResult> Post([FromBody] ListItem list)
         {
-            return CreatedAtAction("Get", new { id = list.Id }, listService.AddList(list));
+            return CreatedAtAction("Get", new { id = list.Id }, listService.AddListItem(list));
         }
 
-        */
+        
         // PUT api/listItems/5
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] ListItem listItem)

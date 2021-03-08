@@ -7,3 +7,8 @@
     width: 30px; 
     height: 30px; 
 }
+
+.addButton :hover {
+    background: #6d6464;
+    cursor: pointer; 
+}

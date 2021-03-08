@@ -21,6 +21,14 @@ namespace DissertationOrganisation.Services
             throw new NotImplementedException();
         }
 
+        public object AddListItem(ListItem listItem)
+        {
+            listItem.State = ListItemState.Incomplete;
+            _context.ListItems.Add(listItem);
+            _context.SaveChanges();
+            return listItem;
+        }
+
         public bool DeleteList(int id)
         {
             throw new NotImplementedException();
