@@ -24,3 +24,17 @@
     background: #6d6464;
     cursor: pointer;
 }
+
+
+.deleteButton {
+    position: relative;
+    left: 5px;
+    width: 15px;
+    height: 15px;
+    color: crimson;  
+}
+
+.deleteButton :hover {
+    background: #6d6464;
+    cursor: pointer;
+}

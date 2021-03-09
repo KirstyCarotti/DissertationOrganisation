@@ -46,16 +46,17 @@ namespace DissertationOrganisation.Controllers
             listService.UpdateListItem(id, listItem);
             return NoContent();
         }
-/*
+
 
 
         // DELETE api/lists/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            listService.DeleteList(id);
+            listService.DeleteListItem(id);
             return NoContent();
-        }*/
+        }
+
         public override NoContentResult NoContent()
         {
             return base.NoContent();

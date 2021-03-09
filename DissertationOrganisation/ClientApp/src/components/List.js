@@ -63,7 +63,7 @@ const List = (props) => {
             })
             .then(setSuccess(true))
             .catch(e => console.log(e));
-        needUpdate(!currentUpdate);
+            needUpdate(!currentUpdate);
     }
 
 

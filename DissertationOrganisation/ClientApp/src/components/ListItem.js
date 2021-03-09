@@ -12,7 +12,7 @@ import {
     Button 
 } from 'reactstrap';
 import './List.css';
-import { FaEdit } from 'react-icons/fa';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
 const ListItem = (props) => {
     const { id, listId, title, description, state, needUpdate, currentUpdate} = props; 
@@ -67,7 +67,21 @@ const ListItem = (props) => {
                 }),
             })
             .then(setIsChecked(newState === 0 ? true : false))
-            //Needs to be toggles 
+            .then(needUpdate(!currentUpdate))
+            .catch(e => console.log(e));
+
+    }
+
+    function deleteListItem(e) {
+
+        fetch('https://localhost:44388/api/listItems/' + id,
+            {
+                method: "Delete",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            })
             .then(needUpdate(!currentUpdate))
             .catch(e => console.log(e));
 
@@ -77,14 +91,15 @@ const ListItem = (props) => {
                 <FormGroup check>
                     <Row>
                         <Input type="checkbox" name="complete" checked={isChecked} onChange={handleChange} id={id} />
-                        <div onClick={toggle}>
                             <Label>
-                            {title}
-                            <span className= "editButton">
+                                {title}
+                            <span onClick={toggle} className= "editButton">
                                 <FaEdit className="editButton" />
                             </span>
+                            <span onClick={deleteListItem} className="deleteButton">
+                                <FaTrash className="deleteButton" />
+                            </span>
                         </Label> 
-                        </div>
                     </Row>
                 </FormGroup> 
                 <div>

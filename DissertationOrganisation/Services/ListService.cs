@@ -34,6 +34,13 @@ namespace DissertationOrganisation.Services
             throw new NotImplementedException();
         }
 
+        public void DeleteListItem(int id)
+        {
+            var item = _context.ListItems.Where(x => x.Id == id).FirstOrDefault();
+            _context.ListItems.Remove(item);
+            _context.SaveChanges();
+        }
+
         public List GetList(int id)
         {
             return GetLists().Where(list => list.Id == id).FirstOrDefault();
@@ -63,7 +70,7 @@ namespace DissertationOrganisation.Services
             currentListItem.Description = listItem.Description;
 
             _context.SaveChanges(); 
-            //Write rest of update 
+            //TODO Write rest of update 
 
         }
         /*
