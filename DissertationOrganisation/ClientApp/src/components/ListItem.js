@@ -19,9 +19,11 @@ const ListItem = (props) => {
 
     const [isChecked, setIsChecked] = useState(state === 0 ? true:false);
     const [modal, setModal] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(false);
     const [newTitle, setTitle] = useState(title);
     const [newDescription, setDescription] = useState(description);
     const toggle = () => setModal(!modal);
+    const deleteToggle = () => setDeleteModal(!deleteModal);
 
     function handleInputChange(event) {
         const target = event.target;
@@ -71,6 +73,7 @@ const ListItem = (props) => {
 
     function deleteListItem(e) {
         toggle();
+        deleteToggle();
         fetch('https://localhost:44388/api/listItems/' + id,
             {
                 method: "Delete",
@@ -112,10 +115,24 @@ const ListItem = (props) => {
                             </Form>
                         </ModalBody>
                         <ModalFooter>
-                            <Button color="success" onClick={handleChange} >Save</Button>{' '}
-                            <Button color="danger" onClick={deleteListItem}>Delete</Button>
+                            <Button color="success" onClick={handleChange}>Save</Button>{' '}
+                            <Button color="danger" onClick={deleteToggle}>Delete</Button>
                         </ModalFooter>
                     </Modal>
+                </div>
+                <div>
+                <Modal isOpen={deleteModal} toggle={deleteToggle}>
+                    <ModalHeader toggle={deleteToggle}>Delete {title}</ModalHeader>
+                    <ModalBody>
+                        <div>
+                            <p> Are you sure you want to delete {title}? You will not be able to recover it once deleted. </p>
+                        </div>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="danger" onClick={deleteListItem}>Delete</Button>
+                        <Button color="secondary" onClick={deleteToggle} >Cancel</Button>{' '}
+                    </ModalFooter>
+                </Modal>
                 </div>
             </div>
         )
