@@ -30,7 +30,10 @@ const List = (props) => {
     const [success, setSuccess] = useState(false);
 
 
-    const toggle = () => setModal(!modal);
+    function toggle(){
+        setModal(!modal);
+        setSuccess(false);
+    }
 
     function handleInputChange(event){
         const target = event.target;
@@ -62,8 +65,8 @@ const List = (props) => {
                 }),
             })
             .then(setSuccess(true))
+            .then(needUpdate(!currentUpdate))
             .catch(e => console.log(e));
-            needUpdate(!currentUpdate);
     }
 
 
@@ -74,14 +77,12 @@ const List = (props) => {
             <div>
                 <Row>
                     <Col sm="6">
-                        <Card id={id}>
-                            <CardBody>
-                                <Row>
-                                    <CardTitle>{name}</CardTitle>
-                                    <div onClick={toggle} className="addButton">
-                                        <FaRegPlusSquare className="addButton"/>
-                                    </div>
-                                </Row>
+                        <Card id={id} >
+                            <CardTitle className="listTitle">{name}</CardTitle>
+                                <div onClick={toggle} className="addButton">
+                                    <FaRegPlusSquare className="addButton" />
+                                </div>
+                            <CardBody className="list">
                                 <Alert colour="sucess" isOpen={success} toggle={onDismiss}> {title} added </Alert>
                                 {items.map(item =>
                                     <ListItem key={item.id} id={item.id} listId={item.listId} title={item.title} description={item.description} state={item.state} needUpdate={needUpdate} currentUpdate={currentUpdate} />

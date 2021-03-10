@@ -1,6 +1,18 @@
 ﻿body {
 }
 
+.list{
+    overflow: scroll; 
+    max-height: 600px; 
+}
+
+
+.listTitle {
+    height: 40px; 
+    border-bottom: 1px solid black;
+    font-size: large;
+}
+
 .addButton{
     position: absolute;
     right: 10px; 

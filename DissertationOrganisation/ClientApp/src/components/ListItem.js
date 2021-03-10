@@ -9,22 +9,19 @@ import {
     ModalBody,
     Form, 
     ModalFooter,
-    Button 
+    Button,
 } from 'reactstrap';
 import './List.css';
-import { FaEdit, FaTrash } from 'react-icons/fa';
+import { FaEdit} from 'react-icons/fa';
 
 const ListItem = (props) => {
-    const { id, listId, title, description, state, needUpdate, currentUpdate} = props; 
+    const { id, listId, title, description, state, needUpdate,currentUpdate} = props; 
 
     const [isChecked, setIsChecked] = useState(state === 0 ? true:false);
     const [modal, setModal] = useState(false);
     const [newTitle, setTitle] = useState(title);
     const [newDescription, setDescription] = useState(description);
-
     const toggle = () => setModal(!modal);
-
-
 
     function handleInputChange(event) {
         const target = event.target;
@@ -41,6 +38,7 @@ const ListItem = (props) => {
     }
 
     function handleChange(e) {
+        toggle();
         var newState = state;
         if (e.target.name == "complete") {
             if (isChecked) {
@@ -69,11 +67,10 @@ const ListItem = (props) => {
             .then(setIsChecked(newState === 0 ? true : false))
             .then(needUpdate(!currentUpdate))
             .catch(e => console.log(e));
-
     }
 
     function deleteListItem(e) {
-
+        toggle();
         fetch('https://localhost:44388/api/listItems/' + id,
             {
                 method: "Delete",
@@ -86,7 +83,7 @@ const ListItem = (props) => {
             .catch(e => console.log(e));
 
     }
-        return (
+    return (
             <div>
                 <FormGroup check>
                     <Row>
@@ -95,9 +92,6 @@ const ListItem = (props) => {
                                 {title}
                             <span onClick={toggle} className= "editButton">
                                 <FaEdit className="editButton" />
-                            </span>
-                            <span onClick={deleteListItem} className="deleteButton">
-                                <FaTrash className="deleteButton" />
                             </span>
                         </Label> 
                     </Row>
@@ -119,7 +113,7 @@ const ListItem = (props) => {
                         </ModalBody>
                         <ModalFooter>
                             <Button color="success" onClick={handleChange} >Save</Button>{' '}
-                            <Button color="secondary" onClick={toggle}>Cancel</Button>
+                            <Button color="danger" onClick={deleteListItem}>Delete</Button>
                         </ModalFooter>
                     </Modal>
                 </div>

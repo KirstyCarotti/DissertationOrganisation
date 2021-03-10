@@ -31,7 +31,7 @@ import './List.css';
          return (
              <div>
                  {lists.map(list =>
-                     <List key={list.id} id={list.id} name={list.listName} items={list.listItems} needUpdate={setUpdate} currentUpdate={update} />                            
+                     <List key={list.id} id={list.id} name={list.listName} items={list.listItems} needUpdate={setUpdate} currentUpdate={update}/>                            
                  )}
              </div>
          )
