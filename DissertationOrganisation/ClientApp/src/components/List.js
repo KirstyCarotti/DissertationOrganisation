@@ -22,7 +22,7 @@ import './List.css';
 
 
 const List = (props) => {
-    const { id, name, items, needUpdate, currentUpdate} = props;
+    const { id, name, items, needUpdate, currentUpdate, currentDate} = props;
 
     const [modal, setModal] = useState(false);
     const [title, setTitle] = useState("");
@@ -62,6 +62,7 @@ const List = (props) => {
                     listId: id,
                     title: title,
                     description: description,
+                    date: currentDate
                 }),
             })
             .then(setSuccess(true))

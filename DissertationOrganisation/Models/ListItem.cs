@@ -14,5 +14,7 @@ namespace DissertationOrganisation.Models
         public List<ListSubItem> ListSubItems { get; set; }
         public ListItemState State { get; set; }
 
+        public DateTime Date { get; set; }
+
     }
 }

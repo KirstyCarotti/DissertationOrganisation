@@ -40,7 +40,7 @@ const ListItem = (props) => {
     }
 
     function handleChange(e) {
-        toggle();
+        setModal(false)
         var newState = state;
         if (e.target.name == "complete") {
             if (isChecked) {

@@ -23,18 +23,13 @@ namespace DissertationOrganisation.Controllers
         {
             return listService.GetLists();
         }
+
         // GET api/lists/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
            var result = listService.GetList(id);
             return Ok(result);
-        }
-        // POST api/lists
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody] List list)
-        {
-            return CreatedAtAction("Get", new { id = list.Id }, listService.AddList(list));
         }
         // PUT api/lists/5
         [HttpPut("{id}")]

@@ -9,11 +9,11 @@ namespace DissertationOrganisation.Services
 {
     public class ListService : IListService
     {
-        private readonly DatabaseContext _context; 
+        private readonly DatabaseContext _context;
 
         public ListService(DatabaseContext context)
         {
-            _context = context; 
+            _context = context;
         }
 
         public User AddList(List list)
@@ -24,6 +24,7 @@ namespace DissertationOrganisation.Services
         public object AddListItem(ListItem listItem)
         {
             listItem.State = ListItemState.Incomplete;
+            listItem.Date= Globals.GetPageDateTime(); ;
             _context.ListItems.Add(listItem);
             _context.SaveChanges();
             return listItem;
@@ -48,10 +49,16 @@ namespace DissertationOrganisation.Services
 
         public List<List> GetLists()
         {
+            var hehe = Globals.GetPageDateTime();
             var lists = _context.Lists.ToList();
             foreach (List list in lists)
             {
-                list.ListItems = _context.ListItems.Where(listItems => listItems.ListId == list.Id).ToList();
+                list.ListItems = _context.ListItems
+                    .Where(listItems => listItems.ListId == list.Id)
+                    .Where(listItems => listItems.Date.Day == Globals.GetPageDateTime().Date.Day)
+                    .Where(listItems => listItems.Date.Month == Globals.GetPageDateTime().Date.Month)
+                    .Where(listItems => listItems.Date.Year == Globals.GetPageDateTime().Date.Year)
+                    .ToList();
             }
             return lists;
         }
