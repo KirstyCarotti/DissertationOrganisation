@@ -1,6 +1,7 @@
 import React, { Component, useState, useEffect } from 'react';
 import Lists from './Lists.js'
 import Datetime from './Datetime.js';
+import Schedule from './Schedule.js';
 
 const HomePage = (props) => {
 
@@ -9,7 +10,8 @@ const HomePage = (props) => {
         return (
             <div>
                 <Datetime setDate={setDate} />
-                <Lists currentDate={date}></Lists>
+                <Lists currentDate={date} />
+                <Schedule currentDate = {date} />
         </div>
     );
   

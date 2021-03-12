@@ -6,7 +6,8 @@ namespace DissertationOrganisation.Services
 {
 
     public interface IEventService
-        {
-
+    {
+        public IEnumerable<Event> GetEvents();
+        public Event AddEvent(Event e);
     }
 }

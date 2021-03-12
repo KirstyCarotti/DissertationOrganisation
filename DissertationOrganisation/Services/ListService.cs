@@ -49,7 +49,6 @@ namespace DissertationOrganisation.Services
 
         public List<List> GetLists()
         {
-            var hehe = Globals.GetPageDateTime();
             var lists = _context.Lists.ToList();
             foreach (List list in lists)
             {

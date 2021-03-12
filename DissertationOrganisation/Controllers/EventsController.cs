@@ -17,13 +17,19 @@ namespace DissertationOrganisation.Controllers
         {
             this.eventService = eventService; 
         }
-        /*
+        
         [HttpGet]
         public IEnumerable<Event> Get()
         {
-            return null;// eventService.GetLists();
+            return eventService.GetEvents();// eventService.GetLists();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] Event e)
+        {
+            return CreatedAtAction("Get", new { id = e.Id }, eventService.AddEvent(e));
+        }
+        /*
         // GET api/lists/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
