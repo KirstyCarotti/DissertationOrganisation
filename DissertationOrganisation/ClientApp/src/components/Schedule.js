@@ -20,13 +20,14 @@ import {
     Input,
 } from 'reactstrap';
 import { FaRegPlusSquare } from 'react-icons/fa';
+import ScheduleMinute from './ScheduleMinute.js';
 import './List.css';
 
 
 const Schedule = (props) => {
     const { currentDate } = props;
 
-    const [events, setEvents] = useState(undefined)
+    const [events, setEvents] = useState([])
     const [modal, setModal] = useState(false);
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -47,23 +48,22 @@ const Schedule = (props) => {
         const value = target.value;
         const name = target.name;
 
-        //TODO change this into a different format (whats the other one?)
-        if (name == "title") {
+        if (name === "title") {
             setTitle(value);
         }
-        else if (name == "description") {
+        else if (name === "description") {
             setDescription(value);
         }
-        else if (name == "location") {
+        else if (name === "location") {
             setLocation(value)
         }
-        else if (name == "date") {
+        else if (name === "date") {
             setDate(value)
         }
-        else if (name == "startTime") {
+        else if (name === "startTime") {
             setStartTime(value)
         }
-        else if (name == "endTime") {
+        else if (name === "endTime") {
             setEndTime(value)
         }
 
@@ -91,12 +91,8 @@ const Schedule = (props) => {
             .catch(e => console.log(e));
     }
 
-    function compareTimes(events, block) {
-        //compre the block times to event times and work out if an event conicides with the block? 
-        //may need to be done in a different component
-    }
-
     useEffect(() => {
+        console.log("hhhHAHAHAHAAHAH")
         fetch('https://localhost:44388/api/events',
             {
                 method: "GET",
@@ -112,8 +108,8 @@ const Schedule = (props) => {
             .catch(e => console.log(e));
 
     }, [update])
-    console.log(events)
 
+    console.log(events)
     return (
         <div>
             <Table>
@@ -124,10 +120,11 @@ const Schedule = (props) => {
                     </tr>
                 </thead>
                 {times.map(time =>
-                    <tr>
+                    <tr key={time}>
                         <td>{time}</td>
-                        <td />
-                        {compareTimes(events,time)}
+                        <td>
+                            <ScheduleMinute timeBlock={time} events={events} needUpdate={setUpdate} currentUpdate={update}/> 
+                        </td> 
                     </tr>
                 )}
             </Table>

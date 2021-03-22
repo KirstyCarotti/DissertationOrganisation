@@ -27,12 +27,10 @@ const List = (props) => {
     const [modal, setModal] = useState(false);
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [success, setSuccess] = useState(false);
 
 
     function toggle(){
         setModal(!modal);
-        setSuccess(false);
     }
 
     function handleInputChange(event){
@@ -65,13 +63,13 @@ const List = (props) => {
                     date: currentDate
                 }),
             })
-            .then(setSuccess(true))
             .then(needUpdate(!currentUpdate))
             .catch(e => console.log(e));
+
+        
     }
 
 
-    const onDismiss = () => setSuccess(false);
     
 
         return (
@@ -84,7 +82,6 @@ const List = (props) => {
                                     <FaRegPlusSquare className="addButton" />
                                 </div>
                             <CardBody className="list">
-                                <Alert colour="sucess" isOpen={success} toggle={onDismiss}> {title} added </Alert>
                                 {items.map(item =>
                                     <ListItem key={item.id} id={item.id} listId={item.listId} title={item.title} description={item.description} state={item.state} needUpdate={needUpdate} currentUpdate={currentUpdate} />
                                     )}

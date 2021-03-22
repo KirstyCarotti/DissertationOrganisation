@@ -67,8 +67,10 @@ const ListItem = (props) => {
                 }),
             })
             .then(setIsChecked(newState === 0 ? true : false))
-            .then(needUpdate(!currentUpdate))
+            .then()
             .catch(e => console.log(e));
+
+        needUpdate(!currentUpdate)
     }
 
     function deleteListItem(e) {
@@ -82,8 +84,10 @@ const ListItem = (props) => {
                     'Content-Type': 'application/json'
                 },
             })
-            .then(needUpdate(!currentUpdate))
+            .then()
             .catch(e => console.log(e));
+
+        needUpdate(!currentUpdate)
 
     }
     return (

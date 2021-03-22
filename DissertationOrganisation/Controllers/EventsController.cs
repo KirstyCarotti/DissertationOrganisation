@@ -19,7 +19,7 @@ namespace DissertationOrganisation.Controllers
         }
         
         [HttpGet]
-        public IEnumerable<Event> Get()
+        public  IEnumerable<Event> Get()
         {
             return eventService.GetEvents();// eventService.GetLists();
         }
