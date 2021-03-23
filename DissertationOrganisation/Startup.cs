@@ -27,6 +27,7 @@ namespace DissertationOrganisation
             services.AddTransient<IListService, ListService>(); 
             services.AddTransient<IDateTimeService, DateTimeService>(); 
             services.AddTransient<IEventService, EventService>(); 
+            services.AddTransient<IHabitService, HabitService>(); 
 
             services.AddControllersWithViews();
 

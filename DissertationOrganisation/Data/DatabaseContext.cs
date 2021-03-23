@@ -15,6 +15,7 @@ namespace DissertationOrganisation.Data
         public DbSet<ListItem> ListItems { get; set; }
         public DbSet<ListSubItem> ListSubItems { get; set; }
         public DbSet<Event> Events { get; set; }
+        public DbSet<Habit> Habits { get; set; }
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         { }
