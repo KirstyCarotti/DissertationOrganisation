@@ -12,5 +12,6 @@ namespace DissertationOrganisation.Services
         public DateTime GetCurrentDateTime();
 
         public bool UpdateDateTime(DateTime date);
+        DateTimeHabit GetDateTimeHabit();
     }
 }

@@ -1,0 +1,19 @@
+﻿body {
+}
+
+td, th{
+    height: 50px;
+    width: 50px; 
+}
+
+table {
+    width: 350px; 
+    height:250px; 
+    position:static;
+    font-display: block;
+}
+
+.calendar{
+    width: 700px; 
+    height: 50px; 
+}

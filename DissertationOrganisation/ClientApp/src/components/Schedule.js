@@ -92,7 +92,6 @@ const Schedule = (props) => {
     }
 
     useEffect(() => {
-        console.log("hhhHAHAHAHAAHAH")
         fetch('https://localhost:44388/api/events',
             {
                 method: "GET",
