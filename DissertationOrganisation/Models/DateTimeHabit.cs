@@ -15,5 +15,7 @@ namespace DissertationOrganisation.Models
 
         public string Month { get; set; }
 
+        public List<int> DayArray {get;set;}
+
     }
 }

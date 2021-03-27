@@ -25,12 +25,19 @@ namespace DissertationOrganisation.Services
             //need to check if its current date time or page date time as page date time makes me thonk of the home page... 
             DateTime pageDateTime = Globals.GetPageDateTime();
 
+
+            for (int i = 0; i < 70; i++)
+            {
+
+            }
+
             DateTimeHabit dateTimeHabit = new DateTimeHabit
             {
                 Month = GetMonthName(pageDateTime.Month),
                 CurrentDate = GetCurrentDateTime(),
                 StartDayOfMonth = GetStartDay(pageDateTime.Day, pageDateTime.DayOfWeek),
-                DaysInMonth = GetDaysInMonth(pageDateTime.Month, DateTime.IsLeapYear(pageDateTime.Year))
+                DaysInMonth = GetDaysInMonth(pageDateTime.Month, DateTime.IsLeapYear(pageDateTime.Year)),
+
     };
             return dateTimeHabit;
 
