@@ -17,5 +17,6 @@ namespace DissertationOrganisation.Services
         public void UpdateHabit(int id, Habit updatedHabit);
         
         public bool DeleteHabit(int id);
+        IEnumerable<Habit> GetTodaysHabits();
     }
 }

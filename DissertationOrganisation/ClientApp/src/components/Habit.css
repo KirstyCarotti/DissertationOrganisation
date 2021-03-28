@@ -24,5 +24,35 @@ table {
 
 .calendar{
     width: 700px; 
-    height: 50px; 
+    min-height: 50px; 
+    float: left;
+}
+
+.key {
+    width: 700px; 
+}
+
+.titleSection {
+    text-align: center;
+}
+
+.habitCol {
+    max-height: 75px;
+    max-width: 75px;
+    min-height: 75px;
+    min-width: 75px;
+    border-color: black;
+}
+
+.habitName{
+    display:inline-flex;
+}
+
+.todaysHabits {
+    float: left;
+    margin-left: 20px;
+}
+
+.habitContainer{
+    display: flex;
 }

@@ -4,7 +4,6 @@ import './Habit.css';
 const Day = (props) => {
 
     const { id, info, isFirstRow } = props; 
-    console.log(id, info, isFirstRow)
 
     const currentDay = id + 1 == info.currentDate.split('T')[0].split('-')[2]; 
 
