@@ -19,7 +19,7 @@ namespace DissertationOrganisation.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Habit> Get()
+        public IEnumerable<TodaysHabits> Get()
         {
             return habitService.GetTodaysHabits();
         }

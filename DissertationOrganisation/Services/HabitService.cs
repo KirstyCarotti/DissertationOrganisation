@@ -39,26 +39,60 @@ namespace DissertationOrganisation.Services
             return habits;
         }
 
-        public IEnumerable<Habit> GetTodaysHabits()
+        public IEnumerable<TodaysHabits> GetTodaysHabits()
          {
 
             DateTime current = _dateTimeService.GetCurrentDateTime();
 
-            var todaysHabits = new List<Habit>(); 
+            var todaysHabits = new List<TodaysHabits>(); 
             var habits = _context.Habits.ToList();
             foreach(Habit habit in habits)
             {
+               // var completed = _context.HabitCompletes.ToList();
+               // var isComplete = completed
+               //     .Where(x=> x.HabitId == habit.Id)
+               //     .Where(x => x.Date.Year == current.Year && x.Date.Month == current.Month && x.Date.Day == current.Day)
+               //     .FirstOrDefault().IsComplete;
                 if(habit.StartDate.Year <= current.Year && habit.StartDate.Month <= current.Month && habit.StartDate.Day <= current.Day)
                 {
                     if(habit.EndDate == null)
                     {
-                        todaysHabits.Add(habit);
+                        todaysHabits.Add(new TodaysHabits
+                        {
+                            Id = habit.Id,
+                            Name = habit.Name,
+                            Description = habit.Description,
+                            StartDate = habit.StartDate,
+                            EndDate = habit.EndDate,
+                            Repeat = habit.Repeat,
+                            RepeatDays = habit.RepeatDays,
+                            Colour = habit.Colour,
+                            Mesurable = habit.Mesurable,
+                            NumberOfBlocks = habit.NumberOfBlocks,
+                            RepresentationOfBlocks = habit.RepresentationOfBlocks,
+                            IsComplete = false //isComplete TODO
+                        });
+                                            
                     }
                     else
                     {
                         if (habit.EndDate?.Year <= current.Year && habit.EndDate?.Month <= current.Month && habit.EndDate?.Day <= current.Day)
                         {
-                            todaysHabits.Add(habit);
+                            todaysHabits.Add(new TodaysHabits
+                            {
+                                Id = habit.Id,
+                                Name = habit.Name,
+                                Description = habit.Description,
+                                StartDate = habit.StartDate,
+                                EndDate = habit.EndDate,
+                                Repeat = habit.Repeat,
+                                RepeatDays = habit.RepeatDays,
+                                Colour = habit.Colour,
+                                Mesurable = habit.Mesurable,
+                                NumberOfBlocks = habit.NumberOfBlocks,
+                                RepresentationOfBlocks = habit.RepresentationOfBlocks,
+                                IsComplete = false //isComplete TODO 
+                            });
                         }
                     }
                 }

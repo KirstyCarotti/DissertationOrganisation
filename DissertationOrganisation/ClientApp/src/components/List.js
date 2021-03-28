@@ -14,7 +14,6 @@ import {
     FormGroup,
     Label,
     Input,
-    Alert
 } from 'reactstrap';
 import { FaRegPlusSquare } from 'react-icons/fa';
 import ListItem from './ListItem.js';

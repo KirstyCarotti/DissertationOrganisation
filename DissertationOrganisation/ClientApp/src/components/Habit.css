@@ -56,3 +56,19 @@ table {
 .habitContainer{
     display: flex;
 }
+
+.addButton {
+    position: absolute;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+}
+
+.addButton :hover {
+    background: #6d6464;
+    cursor: pointer;
+}
+
+.todaysHabits{
+    min-width: 300px; 
+}
