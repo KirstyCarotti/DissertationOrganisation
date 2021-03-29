@@ -7,7 +7,6 @@
         Weekly, //has the options of days 
         Yearly 
     }
-
     public enum RepeatDays
     {
         Monday,
@@ -18,4 +17,11 @@
         Saturday,
         Sunday
     }
+    public class RepeatObject
+    {
+        public int id { get; set; }
+
+        public string repeat { get; set; }
+    }
+
 }

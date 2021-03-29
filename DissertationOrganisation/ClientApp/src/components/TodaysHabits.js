@@ -16,6 +16,8 @@ import {
     Input,
 } from 'reactstrap';
 import { FaRegPlusSquare } from 'react-icons/fa';
+import RepeatSelect from './RepeatSelect.js';
+import RepeatDays from './RepeatDays.js';
 import './Habit.css';
 
 const TodaysHabits = (props) => {
@@ -28,6 +30,9 @@ const TodaysHabits = (props) => {
     const [description, setDescription] = useState("");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
+    const [repeat, setRepeat] = useState("");
+    const [repeatDays, setRepeatDays] = useState([]);
+    const [isVisible, setIsVisible] = useState(false); 
 
 
     function toggle() {
@@ -64,8 +69,6 @@ const TodaysHabits = (props) => {
             })
             .catch(e => console.log(e));
 
-
-
     }, [])
 
     function addItem(e) {
@@ -89,8 +92,6 @@ const TodaysHabits = (props) => {
 
 
     }
-
-    console.log(todaysHabits)
 
     if (success) {
         return (
@@ -117,26 +118,34 @@ const TodaysHabits = (props) => {
                                 <FormGroup>
                                     <Label>Name</Label>
                                     <Input type="text" name="name" id="name" onChange={handleInputChange} placeholder="Item name" />
-                                </FormGroup>
-                                <FormGroup>
                                     <Label>Description</Label>
                                     <Input type="textarea" name="description" id="exampleText" onChange={handleInputChange} />
-                                </FormGroup>
-                                <FormGroup>
-                                <Label>Start Date</Label>
-                                    <Input
-                                        className="date"
-                                        type="date"
-                                        name="startDate"
-                                        id="exampleDate"
-                                    />
-                                <Label>End Date</Label>
-                                    <Input
-                                        className="date"
-                                        type="date"
-                                        name="endDate"
-                                        id="exampleDate"
-                                        />
+                                    <div className="habitDate">
+                                        <Label>Start Date</Label>
+                                        <Input
+                                            className="date"
+                                            type="date"
+                                            name="startDate"
+                                            id="exampleDate"
+                                            />
+                                    </div>
+                                        <div className="endDate">
+                                            <Label>End Date</Label>
+                                            <Input
+                                                className="date"
+                                                type="date"
+                                                name="endDate"
+                                                id="exampleDate"
+                                                />
+                                    </div>
+                                    <div className ="repeat">
+                                        <Label>Repeat</Label>
+                                        <RepeatSelect repeat={repeat} setRepeat={setRepeat} setIsVisible={setIsVisible} />
+                                    </div>
+                                    <div className="weekly">
+                                        <Label>Repeat Days</Label>
+                                        <RepeatDays isVisible={isVisible} repeatDays={repeatDays} setRepeatDays={setRepeatDays} />
+                                    </div>
                                 </FormGroup>
                             </Form>
                         </ModalBody>

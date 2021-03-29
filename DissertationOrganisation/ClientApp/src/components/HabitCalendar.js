@@ -28,7 +28,6 @@ import './Habit.css';
 
      }, [])
 
-     console.log(habitDateInformation)
 
      if (success) {
          return (

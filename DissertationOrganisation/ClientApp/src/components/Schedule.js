@@ -108,7 +108,6 @@ const Schedule = (props) => {
 
     }, [update])
 
-    console.log(events)
     return (
         <div>
             <Table>

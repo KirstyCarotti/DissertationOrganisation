@@ -5,7 +5,6 @@ const HabitInKey = (props) => {
 
     const { id, habit } = props;
 
-    console.log(habit)
     //https://eager.io/blog/communicating-between-javascript-and-css-with-css-variables/
     //talk about this in write up 
 
