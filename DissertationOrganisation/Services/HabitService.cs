@@ -21,7 +21,9 @@ namespace DissertationOrganisation.Services
 
         public Habit AddHabit(Habit habit)
         {
-            throw new NotImplementedException();
+            _context.Habits.Add(habit);
+            _context.SaveChanges();
+            return habit;
         }
 
         public bool DeleteHabit(int id)
@@ -62,14 +64,6 @@ namespace DissertationOrganisation.Services
                             Id = habit.Id,
                             Name = habit.Name,
                             Description = habit.Description,
-                            StartDate = habit.StartDate,
-                            EndDate = habit.EndDate,
-                            Repeat = habit.Repeat,
-                            RepeatDays = habit.RepeatDays,
-                            Colour = habit.Colour,
-                            Mesurable = habit.Mesurable,
-                            NumberOfBlocks = habit.NumberOfBlocks,
-                            RepresentationOfBlocks = habit.RepresentationOfBlocks,
                             IsComplete = false //isComplete TODO
                         });
                                             
@@ -83,14 +77,6 @@ namespace DissertationOrganisation.Services
                                 Id = habit.Id,
                                 Name = habit.Name,
                                 Description = habit.Description,
-                                StartDate = habit.StartDate,
-                                EndDate = habit.EndDate,
-                                Repeat = habit.Repeat,
-                                RepeatDays = habit.RepeatDays,
-                                Colour = habit.Colour,
-                                Mesurable = habit.Mesurable,
-                                NumberOfBlocks = habit.NumberOfBlocks,
-                                RepresentationOfBlocks = habit.RepresentationOfBlocks,
                                 IsComplete = false //isComplete TODO 
                             });
                         }

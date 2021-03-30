@@ -3,7 +3,7 @@ import './Habit.css';
 import HabitInKey from './HabitInKey.js';
 
  const HabitKey = (props) => {
-
+     const { update, setUpdate } = props;
      const [habits, setHabits] = useState([]);
      const [success, setSuccess] = useState(false);
 
@@ -22,7 +22,7 @@ import HabitInKey from './HabitInKey.js';
                  setSuccess(true);
              })
              .catch(e => console.log(e));
-     }, [])
+     }, [update])
 
      if (success) {
          return (

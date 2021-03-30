@@ -32,12 +32,15 @@ import RepeatDayOption from './RepeatDayOption.js';
      console.log(repeatDays)
      if (isVisible) {
          return (
-
+             <div>
+             <Label>Repeat Days</Label>
              <div className="repeatDays">
+               
                  {repeatValues.map(value =>
                      <RepeatDayOption key={value.id} id={value.id} text={value.repeat} repeatDays={repeatDays} setRepeatDays={setRepeatDays} />
                  )}
-             </div>
+                 </div>
+                 </div>
          )
      }
      else {

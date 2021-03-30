@@ -1,4 +1,7 @@
-﻿import React, { useEffect, useState } from 'react'
+﻿//info on colout picker https://casesandberg.github.io/react-color/
+
+
+import React, { useEffect, useState } from 'react'
 import {
     Card,
     CardBody,
@@ -14,15 +17,16 @@ import {
     FormGroup,
     Label,
     Input,
+    Badge,
 } from 'reactstrap';
 import { FaRegPlusSquare } from 'react-icons/fa';
 import RepeatSelect from './RepeatSelect.js';
 import RepeatDays from './RepeatDays.js';
 import './Habit.css';
+import { HexColorPicker } from "react-colorful";
 
 const TodaysHabits = (props) => {
-
-    const [update, setUpdate] = useState(false);
+    const { update, setUpdate } = props;
     const [todaysHabits, setTodaysHabits] = useState([]);
     const [success, setSuccess] = useState(false);
     const [modal, setModal] = useState(false);
@@ -32,8 +36,15 @@ const TodaysHabits = (props) => {
     const [endDate, setEndDate] = useState("");
     const [repeat, setRepeat] = useState("");
     const [repeatDays, setRepeatDays] = useState([]);
-    const [isVisible, setIsVisible] = useState(false); 
+    const [isVisible, setIsVisible] = useState(false);
+  //  const [displayColourPicker, setDisplayColourPicker] = useState(false)
+    const [colour, setColour] = useState("#207bd7");
+    const [isMeasurable, setIsMeasurable] = useState(false);
 
+
+    function handleChange(colour, event) {
+        setColour(colour.hex);
+    };
 
     function toggle() {
         setModal(!modal);
@@ -50,9 +61,21 @@ const TodaysHabits = (props) => {
         else if (name == "description") {
             setDescription(value);
         }
+        else if (name == "measurable") {
+            setIsMeasurable(!isMeasurable)
+        }
+        else if (name == "startDate") {
+            setStartDate(value)
+        }
+        else if (name == "endDate") {
+            setEndDate(value)
+        }
+        else if (name == "colour")
+        {
+            setColour(value);
+        }
 
     }
-
     useEffect(() => {
         fetch('https://localhost:44388/api/todaysHabits/',
             {
@@ -69,11 +92,11 @@ const TodaysHabits = (props) => {
             })
             .catch(e => console.log(e));
 
-    }, [])
+    }, [update])
 
     function addItem(e) {
         toggle();
-        fetch('https://localhost:44388/api/todaysHabits/',
+        fetch('https://localhost:44388/api/habits/',
             {
                 method: "Post",
                 headers: {
@@ -81,10 +104,15 @@ const TodaysHabits = (props) => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    Id: null,
+                    Id: 0,
                     name: name,
                     description: description,
-                   // date: currentDate
+                    startDate: startDate,
+                    endDate: endDate,
+                    repeat: repeat,
+                    repeatDays: repeatDays,
+                    colour: colour,
+                    measurable: isMeasurable
                 }),
             })
             .then(setUpdate(!update))
@@ -127,6 +155,7 @@ const TodaysHabits = (props) => {
                                             type="date"
                                             name="startDate"
                                             id="exampleDate"
+                                            onChange={handleInputChange}
                                             />
                                     </div>
                                         <div className="endDate">
@@ -135,17 +164,33 @@ const TodaysHabits = (props) => {
                                                 className="date"
                                                 type="date"
                                                 name="endDate"
-                                                id="exampleDate"
+                                            id="exampleDate"
+                                            onChange={handleInputChange}
                                                 />
                                     </div>
+                                    <Row>
+                                        <Col>
                                     <div className ="repeat">
                                         <Label>Repeat</Label>
                                         <RepeatSelect repeat={repeat} setRepeat={setRepeat} setIsVisible={setIsVisible} />
                                     </div>
-                                    <div className="weekly">
-                                        <Label>Repeat Days</Label>
-                                        <RepeatDays isVisible={isVisible} repeatDays={repeatDays} setRepeatDays={setRepeatDays} />
+                                  
+                                    <div>
+                                        <div /*HexColorPicker color={colour} onChange={handleChange} */ />
+                                                <Label>Colour </Label>
+                                                <Input type="text" name="colour" id="colour" onChange={handleInputChange} defaultValue={colour} />
                                     </div>
+                                    <div className="measurable">
+                                        <Input type="checkbox" name="measurable" checked={isMeasurable} onChange={handleInputChange} />
+                                    <span>Is Measurable</span>
+                                            </div>
+                                        </Col>
+                                        <Col>
+                                            <div className="weekly">
+                                                <RepeatDays isVisible={isVisible} repeatDays={repeatDays} setRepeatDays={setRepeatDays} />
+                                            </div>
+                                            </Col>
+                                    </Row>
                                 </FormGroup>
                             </Form>
                         </ModalBody>

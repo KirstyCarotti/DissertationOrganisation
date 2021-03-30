@@ -4,7 +4,7 @@ import Day from './Day.js';
 import './Habit.css';
 
  const HabitCalendar = (props) => {
-
+     const { update, setUpdate } = props;
      const [habitDateInformation, setHabitDateInformation] = useState(null);
      const [success, setSuccess] = useState(false);
 
@@ -26,7 +26,7 @@ import './Habit.css';
 
 
 
-     }, [])
+     }, [update])
 
 
      if (success) {
