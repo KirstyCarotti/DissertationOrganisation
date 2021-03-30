@@ -50,35 +50,32 @@ namespace DissertationOrganisation.Services
             var habits = _context.Habits.ToList();
             foreach(Habit habit in habits)
             {
-               // var completed = _context.HabitCompletes.ToList();
-               // var isComplete = completed
-               //     .Where(x=> x.HabitId == habit.Id)
-               //     .Where(x => x.Date.Year == current.Year && x.Date.Month == current.Month && x.Date.Day == current.Day)
-               //     .FirstOrDefault().IsComplete;
-                if(habit.StartDate.Year <= current.Year && habit.StartDate.Month <= current.Month && habit.StartDate.Day <= current.Day)
+                
+                var completed = _context.HabitCompletes.ToList();
+                var isComplete = completed
+                    .Where(x=> x.HabitId == habit.Id)
+                    .Where(x => x.Date.Year == current.Year && x.Date.Month == current.Month && x.Date.Day == current.Day)?
+                    .LastOrDefault()?.IsComplete ;
+
+                var todayHabit = new TodaysHabits
+                {
+                    Id = habit.Id,
+                    Name = habit.Name,
+                    Description = habit.Description,
+                    IsComplete = isComplete != null ? (bool)isComplete : false 
+                };
+
+                if (habit.StartDate.Year <= current.Year && habit.StartDate.Month <= current.Month && habit.StartDate.Day <= current.Day)
                 {
                     if(habit.EndDate == null)
                     {
-                        todaysHabits.Add(new TodaysHabits
-                        {
-                            Id = habit.Id,
-                            Name = habit.Name,
-                            Description = habit.Description,
-                            IsComplete = false //isComplete TODO
-                        });
-                                            
+                        todaysHabits.Add(todayHabit);                                          
                     }
                     else
                     {
-                        if (habit.EndDate?.Year <= current.Year && habit.EndDate?.Month <= current.Month && habit.EndDate?.Day <= current.Day)
+                        if (habit.EndDate?.Year >= current.Year && habit.EndDate?.Month >= current.Month && habit.EndDate?.Day >= current.Day)
                         {
-                            todaysHabits.Add(new TodaysHabits
-                            {
-                                Id = habit.Id,
-                                Name = habit.Name,
-                                Description = habit.Description,
-                                IsComplete = false //isComplete TODO 
-                            });
+                            todaysHabits.Add(todayHabit);
                         }
                     }
                 }
@@ -91,5 +88,11 @@ namespace DissertationOrganisation.Services
             throw new NotImplementedException();
         }
 
+        public HabitComplete UpdateHabitComplete(HabitComplete completeHabit)
+        {
+            _context.HabitCompletes.Add(completeHabit);
+            _context.SaveChanges();
+            return completeHabit;
+        }
     }
 }

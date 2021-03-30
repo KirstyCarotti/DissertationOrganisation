@@ -13,15 +13,30 @@ namespace DissertationOrganisation.Controllers
     public class TodaysHabitsController : Controller
     {
         private readonly IHabitService habitService; 
-        public TodaysHabitsController(IHabitService habitService)
+        private readonly IDateTimeService dateTimeService; 
+        public TodaysHabitsController(IHabitService habitService, IDateTimeService dateTimeService)
         {
             this.habitService = habitService; 
+            this.dateTimeService = dateTimeService; 
         }
 
         [HttpGet]
         public IEnumerable<TodaysHabits> Get()
         {
             return habitService.GetTodaysHabits();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] TodaysHabits todaysHabits)
+        {
+            HabitComplete completeHabit = new HabitComplete
+            {
+                Id = 0,
+                HabitId=todaysHabits.Id,
+                Date= dateTimeService.GetCurrentDateTime(),
+                IsComplete=todaysHabits.IsComplete
+            }; 
+            return CreatedAtAction("Get", new { id = completeHabit.Id }, habitService.UpdateHabitComplete(completeHabit));
         }
 
     }

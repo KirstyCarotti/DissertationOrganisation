@@ -29,7 +29,6 @@ import RepeatDayOption from './RepeatDayOption.js';
 
      }, [])
 
-     console.log(repeatDays)
      if (isVisible) {
          return (
              <div>

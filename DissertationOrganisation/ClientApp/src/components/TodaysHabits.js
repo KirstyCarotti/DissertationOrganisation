@@ -22,6 +22,7 @@ import {
 import { FaRegPlusSquare } from 'react-icons/fa';
 import RepeatSelect from './RepeatSelect.js';
 import RepeatDays from './RepeatDays.js';
+import TodaysHabit from './TodaysHabit.js';
 import './Habit.css';
 import { HexColorPicker } from "react-colorful";
 
@@ -131,9 +132,8 @@ const TodaysHabits = (props) => {
                         <FaRegPlusSquare className="addButton" />
                     </div>
                     <CardBody>
-                        {todaysHabits.map(habit =>
-                          //  <ListItem key={item.id} id={item.id} listId={item.listId} title={item.title} description={item.description} state={item.state} needUpdate={needUpdate} currentUpdate={currentUpdate} />
-                        console.log(habit)
+                            {todaysHabits.map(habit =>
+                                <TodaysHabit key={habit.id} id={habit.id} name={habit.name} isComplete={habit.isComplete} />
                             )}
                     </CardBody>
                 </Card>
