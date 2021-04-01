@@ -59,49 +59,49 @@ import './Habit.css';
                      </thead>
                      <tbody>
                          <tr>
-                             <Day id={0} info={habitDateInformation} isFirstRow={true} />
-                             <Day id={1} info={habitDateInformation} isFirstRow={true} />
-                             <Day id={2} info={habitDateInformation} isFirstRow={true} />
-                             <Day id={3} info={habitDateInformation} isFirstRow={true} />
-                             <Day id={4} info={habitDateInformation} isFirstRow={true} />
-                             <Day id={5} info={habitDateInformation} isFirstRow={true} />
-                             <Day id={6} info={habitDateInformation} isFirstRow={true} />
+                             <Day id={0} info={habitDateInformation}   />
+                             <Day id={1} info={habitDateInformation}   />
+                             <Day id={2} info={habitDateInformation}   />
+                             <Day id={3} info={habitDateInformation}   />
+                             <Day id={4} info={habitDateInformation}   />
+                             <Day id={5} info={habitDateInformation}   />
+                             <Day id={6} info={habitDateInformation}   />
                          </tr>
                          <tr>
-                             <Day id={7} info={habitDateInformation} isFirstRow={true} />
-                             <Day id={8} info={habitDateInformation} isFirstRow={true} />
-                             <Day id={9} info={habitDateInformation} isFirstRow={true} />
-                             <Day id={10} info={habitDateInformation} isFirstRow={true} />
-                             <Day id={11} info={habitDateInformation} isFirstRow={true} />
-                             <Day id={12} info={habitDateInformation} isFirstRow={true} />
-                             <Day id={13} info={habitDateInformation} isFirstRow={true} />
+                             <Day id={7} info={habitDateInformation}   />
+                             <Day id={8} info={habitDateInformation}   />
+                             <Day id={9} info={habitDateInformation}   />
+                             <Day id={10} info={habitDateInformation}   />
+                             <Day id={11} info={habitDateInformation}   />
+                             <Day id={12} info={habitDateInformation}   />
+                             <Day id={13} info={habitDateInformation}   />
                          </tr>
                          <tr>
-                             <Day id={14} info={habitDateInformation} isFirstRow={true} />
-                             <Day id={15} info={habitDateInformation} isFirstRow={true} />
-                             <Day id={16} info={habitDateInformation} isFirstRow={true} />
-                             <Day id={17} info={habitDateInformation} isFirstRow={true} />
-                             <Day id={18} info={habitDateInformation} isFirstRow={true} />
-                             <Day id={19} info={habitDateInformation} isFirstRow={true} />
-                             <Day id={20} info={habitDateInformation} isFirstRow={true} />
+                             <Day id={14} info={habitDateInformation}   />
+                             <Day id={15} info={habitDateInformation}   />
+                             <Day id={16} info={habitDateInformation}   />
+                             <Day id={17} info={habitDateInformation}   />
+                             <Day id={18} info={habitDateInformation}   />
+                             <Day id={19} info={habitDateInformation}   />
+                             <Day id={20} info={habitDateInformation}   />
                          </tr>
                          <tr>
-                             <Day id={21} info={habitDateInformation} isFirstRow={true} />
-                             <Day id={22} info={habitDateInformation} isFirstRow={true} />
-                             <Day id={23} info={habitDateInformation} isFirstRow={true} />
-                             <Day id={24} info={habitDateInformation} isFirstRow={true} />
-                             <Day id={25} info={habitDateInformation} isFirstRow={true} />
-                             <Day id={26} info={habitDateInformation} isFirstRow={true} />
-                             <Day id={27} info={habitDateInformation} isFirstRow={true} />
+                             <Day id={21} info={habitDateInformation}   />
+                             <Day id={22} info={habitDateInformation}   />
+                             <Day id={23} info={habitDateInformation}   />
+                             <Day id={24} info={habitDateInformation}   />
+                             <Day id={25} info={habitDateInformation}   />
+                             <Day id={26} info={habitDateInformation}   />
+                             <Day id={27} info={habitDateInformation}   />
                          </tr>
                          <tr>
-                             <Day id={28} info={habitDateInformation} isFirstRow={true} />
-                             <Day id={29} info={habitDateInformation} isFirstRow={true} />
-                             <Day id={30} info={habitDateInformation} isFirstRow={true} />
-                             <Day id={31} info={habitDateInformation} isFirstRow={true} />
-                             <Day id={32} info={habitDateInformation} isFirstRow={true} />
-                             <Day id={33} info={habitDateInformation} isFirstRow={true} />
-                             <Day id={34} info={habitDateInformation} isFirstRow={true} />
+                             <Day id={28} info={habitDateInformation}   />
+                             <Day id={29} info={habitDateInformation}   />
+                             <Day id={30} info={habitDateInformation}   />
+                             <Day id={31} info={habitDateInformation}   />
+                             <Day id={32} info={habitDateInformation}   />
+                             <Day id={33} info={habitDateInformation}   />
+                             <Day id={34} info={habitDateInformation}   />
                          </tr>
                      </tbody>
                  </Table>
