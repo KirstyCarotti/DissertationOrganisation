@@ -12,7 +12,7 @@ import {
 
      useEffect(() => {
          for (var i = 0; i < repeatDays.length; i++) {
-             if (repeatDays[i].id == id) {
+             if (repeatDays[i] == id) {
                  setIsChecked(true);
              }
          }

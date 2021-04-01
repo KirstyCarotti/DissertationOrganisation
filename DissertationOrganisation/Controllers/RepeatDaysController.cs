@@ -24,14 +24,11 @@ namespace DissertationOrganisation.Controllers
                     .Cast<RepeatDays>()
                     .Select(v => v.ToString())
                     .ToList();
-            var ids = Enum.GetValues(typeof(RepeatDays))
-                    .Cast<RepeatDays>()
-                    .ToList();
             for (int i = 0; i < repeats.Count(); i++)
             {
                 repeatObjects.Add(new RepeatObject
                 {
-                    id = (int) ids[i],
+                    id = i,
                     repeat = repeats[i]
                 });
             }

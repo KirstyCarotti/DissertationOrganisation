@@ -5,8 +5,14 @@ import {
 } from 'reactstrap';
 
  const TodaysHabit = (props) => {
-     const { id, name, isComplete } = props;
+     const { id, name, isComplete, needUpdate, currentUpdate} = props;
      const [isChecked, setIsChecked] = useState(isComplete);
+
+     const [habit, setHabit] = useState([])
+
+
+
+
 
      function handleChange(e) {
          var state = false;
@@ -14,9 +20,7 @@ import {
                  state =false
              } else {
                  state = true; 
-             }
-         
-         console.log(state)
+             }       
 
          fetch('https://localhost:44388/api/todaysHabits/',
              {
@@ -32,19 +36,22 @@ import {
                  }),
              })
              .then(setIsChecked(!isChecked))
-             .then()
              .catch(e => console.log(e));
      }
-   
-     return (
-         <div>
-             <Input type="checkbox" name="complete" checked={isChecked} onChange={handleChange} id={id} />
-             <p className="day">
-                 {name}
-             </p>
-         </div>
-     )
+
+    
+
+ 
 
 
- }
+         return (
+             <div>
+                 <Input type="checkbox" name="complete" checked={isChecked} onChange={handleChange} id={id} />
+                 <p className="day">
+                     {name}
+
+                 </p>
+             </div>
+         )
+     }
 export default TodaysHabit

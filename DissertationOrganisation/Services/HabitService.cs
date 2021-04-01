@@ -28,7 +28,10 @@ namespace DissertationOrganisation.Services
 
         public bool DeleteHabit(int id)
         {
-            throw new NotImplementedException();
+            var habit = GetHabit(id);
+            _context.Habits.Remove(habit);
+            _context.SaveChanges();
+            return true;
         }
         public Habit GetHabit(int id)
         {
@@ -107,7 +110,7 @@ namespace DissertationOrganisation.Services
         }
 
         //Move this to an enum service TODO 
-        private IEnumerable<Enum> GetFlags(Enum repeatDays)
+        public IEnumerable<Enum> GetFlags(Enum repeatDays)
         {
                 foreach (Enum value in Enum.GetValues(repeatDays.GetType()))
                     if (repeatDays.HasFlag(value))
@@ -167,7 +170,9 @@ namespace DissertationOrganisation.Services
 
         public void UpdateHabit(int id, Habit updatedHabit)
         {
-            throw new NotImplementedException();
+            var user = GetHabit(id);
+            user.Name = updatedHabit.Name;
+            _context.SaveChanges();
         }
 
         public HabitComplete UpdateHabitComplete(HabitComplete completeHabit)

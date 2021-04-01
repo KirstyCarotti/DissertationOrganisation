@@ -27,7 +27,7 @@ import './Habit.css';
 import { HexColorPicker } from "react-colorful";
 
 const TodaysHabits = (props) => {
-    const { update, setUpdate } = props;
+    const { currentUpdate, needUpdate } = props;
     const [todaysHabits, setTodaysHabits] = useState([]);
     const [success, setSuccess] = useState(false);
     const [modal, setModal] = useState(false);
@@ -86,6 +86,7 @@ const TodaysHabits = (props) => {
         }
 
     }
+    console.log(currentUpdate)
     useEffect(() => {
         fetch('https://localhost:44388/api/todaysHabits/',
             {
@@ -102,7 +103,7 @@ const TodaysHabits = (props) => {
             })
             .catch(e => console.log(e));
 
-    }, [update])
+    }, [currentUpdate])
 
     function addItem(e) {
         toggle();
@@ -125,7 +126,7 @@ const TodaysHabits = (props) => {
                     measurable: isMeasurable
                 }),
             })
-            .then(setUpdate(!update))
+            .then(needUpdate(!currentUpdate))
             .catch(e => console.log(e));
 
 
@@ -142,7 +143,7 @@ const TodaysHabits = (props) => {
                     </div>
                     <CardBody>
                             {todaysHabits.map(habit =>
-                                <TodaysHabit key={habit.id} id={habit.id} name={habit.name} isComplete={habit.isComplete} />
+                                <TodaysHabit key={habit.id} id={habit.id} name={habit.name} isComplete={habit.isComplete} needUpdate={needUpdate} currentUpdate={currentUpdate}/>
                             )}
                     </CardBody>
                 </Card>
@@ -180,8 +181,8 @@ const TodaysHabits = (props) => {
                                     <Row>
                                         <Col>
                                     <div className ="repeat">
-                                        <Label>Repeat</Label>
-                                        <RepeatSelect repeat={repeat} setRepeat={setRepeat} setIsVisible={setIsVisible} />
+                                                <Label>Repeat</Label>
+                                                <RepeatSelect repeat={repeat} setRepeat={setRepeat} setIsVisible={setIsVisible} />
                                     </div>
                                   
                                     <div>

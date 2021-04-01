@@ -11,7 +11,7 @@ const HabitPageComponent = (props) => {
         <span>
             <div className="habitContainer">
                 <HabitCalendar update={update} setUpdate={setUpdate}/>
-                <TodaysHabits update={update} setUpdate={setUpdate} />
+                <TodaysHabits currentUpdate={update} needUpdate={setUpdate} />
             </div>
             <HabitKey update={update} setUpdate={setUpdate}/>
         </span>

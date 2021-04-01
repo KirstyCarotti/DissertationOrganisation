@@ -18,8 +18,10 @@ namespace DissertationOrganisation.Services
         
         public bool DeleteHabit(int id);
 
-        IEnumerable<TodaysHabits> GetTodaysHabits();
+        public IEnumerable<TodaysHabits> GetTodaysHabits();
 
-        HabitComplete UpdateHabitComplete( HabitComplete completeHabit);
+        public HabitComplete UpdateHabitComplete( HabitComplete completeHabit);
+
+        public IEnumerable<Enum> GetFlags(Enum e);
     }
 }

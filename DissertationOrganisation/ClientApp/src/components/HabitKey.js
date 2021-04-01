@@ -24,6 +24,7 @@ import HabitInKey from './HabitInKey.js';
              .catch(e => console.log(e));
      }, [update])
 
+     console.log(habits)
      if (success) {
          return (
              <div className="key">
@@ -31,7 +32,7 @@ import HabitInKey from './HabitInKey.js';
                      <h3>Key</h3>
                  </div>
                  <div className="bodySection">
-                     {habits.map(habit => <HabitInKey key={habit.id} habit={habit}/>)}
+                     {habits.map(habit => <HabitInKey key={habit.id} habit={habit} update={update} setUpdate={setUpdate} />)}
                  </div>
              </div>
          )

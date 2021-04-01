@@ -6,9 +6,8 @@ import {
 } from 'reactstrap';
 
  const RepeatSelect = (props) => {
-     const { setIsVisible,repeat, setRepeat } = props; 
+     const { setIsVisible, repeat, setRepeat } = props; 
      const [repeatValues, setRepeatValues] = useState([]);
-
 
      useEffect(() => {
              fetch('https://localhost:44388/api/repeat/',
@@ -25,9 +24,11 @@ import {
                  })
                  .catch(e => console.log(e));
 
+         if (repeat == 2) {
+             setIsVisible(true)
+         }
 
      }, [])
-
 
      function onChange(event) {
          const target = event.target;
@@ -41,9 +42,9 @@ import {
      }
 
          return (
-                 <Input type="select" name="reapeatSelect" defaultValue={repeat} onChange={onChange}>
+             <Input type="select" name="reapeatSelect" onChange={onChange}>
                  {repeatValues.map(value =>
-                     <option key={value.id} id={value.id}>{value.repeat}</option>
+                     <option selected={ value.id == repeat? true : false} key={value.id} id={value.id}>{value.repeat}</option>
                      )}; 
                  </Input>
          )

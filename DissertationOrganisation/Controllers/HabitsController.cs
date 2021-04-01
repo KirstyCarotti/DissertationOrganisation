@@ -31,7 +31,26 @@ namespace DissertationOrganisation.Controllers
         public IActionResult Get(int id)
         {
            var result = habitService.GetHabit(id);
-            return Ok(result);
+
+            var repeatArray = habitService.GetFlags(result.Repeat);
+             var repeatArrayInt =repeatArray.Select(x => Convert.ToInt32(x));
+
+            HabitModel habitModel = new HabitModel
+            {
+                 Id = result.Id,
+                Name = result.Name,
+                Description = result.Description,
+                StartDate = result.StartDate,
+                EndDate = result.EndDate,
+                Repeat = result.Repeat,
+                RepeatDays = repeatArrayInt,
+                Colour = result.Colour,
+                Mesurable = result.Mesurable,
+                NumberOfBlocks = result.NumberOfBlocks,
+                RepresentationOfBlocks = result.RepresentationOfBlocks
+    };
+
+            return Ok(habitModel);
         }
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] HabitModel habitModel)
@@ -60,8 +79,28 @@ namespace DissertationOrganisation.Controllers
         }
         // PUT api/habits/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] Habit habit)
+        public async Task<IActionResult> Put(int id, [FromBody] HabitModel habitModel)
         {
+            RepeatDays[] repeatDays = habitModel.RepeatDays.Select(o => (RepeatDays)o).ToArray();
+            RepeatDays result = 0;
+            foreach (RepeatDays f in repeatDays)
+            {
+                result |= (RepeatDays)f;
+            }
+            Habit habit = new Habit
+            {
+                Id = habitModel.Id,
+                Name = habitModel.Name,
+                Description = habitModel.Description,
+                StartDate = habitModel.StartDate == null ? dateTimeService.GetCurrentDateTime() : (DateTime)habitModel.StartDate,
+                EndDate = habitModel.EndDate,
+                Repeat = habitModel.Repeat == null ? Repeat.NoRepeat : (Repeat)habitModel.Repeat,
+                RepeatDays = (RepeatDays)result,
+                Colour = habitModel.Colour,
+                Mesurable = habitModel.Mesurable,
+                NumberOfBlocks = habitModel.NumberOfBlocks,
+                RepresentationOfBlocks = habitModel.RepresentationOfBlocks
+            };
             habitService.UpdateHabit(id, habit);
             return NoContent();
         }
