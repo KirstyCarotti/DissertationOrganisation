@@ -12,9 +12,9 @@ const Day = (props) => {
     const [month, setMonth] = useState(info.currentDate.split('-')[1].toString())
     const [year, setYear] = useState(info.currentDate.split('-')[0].toString())
 
-    const [date, setDate] = useState(day!= null? year + "-" + month + "-" + day : "null");
-
+    const [date, setDate] = useState(day!=null? year + "-" + month + "-" + day : null);
     useEffect(() => {
+        if (date != null) {
             fetch('https://localhost:44388/api/dateTimeHabit/',
                 {
                     method: "POST",
@@ -31,9 +31,10 @@ const Day = (props) => {
                     setTodaysHabits(response)
                 )
                 .catch(e => console.log(e));
+        }
     }, [info])
 
-    const currentDay = id + 1 == info.startDayOfMonth;
+    const currentDay = id + 2 - info.startDayOfMonth == parseInt(info.currentDate.split('-')[2].split('T')[0]);
  
     if (id + 1 < info.startDayOfMonth) {
         return (

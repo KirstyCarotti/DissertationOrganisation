@@ -30,10 +30,6 @@ namespace DissertationOrganisation.Controllers
         [HttpPost]
         public  IEnumerable<TodaysHabits> Post([FromBody] GetDate dateModel)
         {
-            if (dateModel.Date.Equals("null"))
-            {
-                return null;
-            }
             //CHANGE TO USE GET DATE MODELA ND TEST 
             DateTime dateTime = DateTime.Parse(dateModel.Date);
             return habitService.GetTodaysHabits(dateTime); 

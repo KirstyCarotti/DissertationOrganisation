@@ -8,6 +8,6 @@ namespace DissertationOrganisation.Models
     public class GetDate
     {
         public int Id { get; set; }
-        public String Date { get; set; }
+        public String? Date { get; set; }
     }
 }
