@@ -86,7 +86,6 @@ const TodaysHabits = (props) => {
         }
 
     }
-    console.log(currentUpdate)
     useEffect(() => {
         fetch('https://localhost:44388/api/todaysHabits/',
             {

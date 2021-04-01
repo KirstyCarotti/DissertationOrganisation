@@ -90,3 +90,26 @@ table {
 .day{
     margin-bottom: 0px;
 }
+
+
+.circle {
+    background: lightblue;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    margin-right: 1px;
+}
+
+.miniCircle {
+    margin-left: 1px;
+    margin-top: 1px;
+    background: #ffffff;
+    border-radius: 50%;
+    width: 8px;
+    height: 8px;
+    position:absolute
+}
+
+.showHabits {
+    display: flex;
+}

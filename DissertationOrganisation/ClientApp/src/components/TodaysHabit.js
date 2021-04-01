@@ -37,6 +37,8 @@ import {
              })
              .then(setIsChecked(!isChecked))
              .catch(e => console.log(e));
+
+         needUpdate(!currentUpdate)
      }
 
     

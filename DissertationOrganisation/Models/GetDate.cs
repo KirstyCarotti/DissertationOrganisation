@@ -5,11 +5,9 @@ using System.Threading.Tasks;
 
 namespace DissertationOrganisation.Models
 {
-    public class TodaysHabits
+    public class GetDate
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Colour { get; set; }
-        public bool IsComplete { get; set; }
+        public String Date { get; set; }
     }
 }

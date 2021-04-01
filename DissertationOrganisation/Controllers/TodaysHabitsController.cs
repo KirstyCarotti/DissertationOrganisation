@@ -23,7 +23,7 @@ namespace DissertationOrganisation.Controllers
         [HttpGet]
         public IEnumerable<TodaysHabits> Get()
         {
-            return habitService.GetTodaysHabits();
+            return habitService.GetTodaysHabits(dateTimeService.GetCurrentDateTime());
         }
 
         [HttpPost]

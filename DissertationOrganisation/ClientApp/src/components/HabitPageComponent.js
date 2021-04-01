@@ -7,6 +7,9 @@ import TodaysHabits from './TodaysHabits.js';
 const HabitPageComponent = (props) => {
 
     const [update, setUpdate] = useState(false);
+    useEffect(() => {
+    
+    }, [update])
     return (
         <span>
             <div className="habitContainer">

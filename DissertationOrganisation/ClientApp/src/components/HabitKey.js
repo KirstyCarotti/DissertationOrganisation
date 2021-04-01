@@ -24,7 +24,6 @@ import HabitInKey from './HabitInKey.js';
              .catch(e => console.log(e));
      }, [update])
 
-     console.log(habits)
      if (success) {
          return (
              <div className="key">

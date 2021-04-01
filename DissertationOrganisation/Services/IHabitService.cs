@@ -18,7 +18,7 @@ namespace DissertationOrganisation.Services
         
         public bool DeleteHabit(int id);
 
-        public IEnumerable<TodaysHabits> GetTodaysHabits();
+        public IEnumerable<TodaysHabits> GetTodaysHabits(DateTime date);
 
         public HabitComplete UpdateHabitComplete( HabitComplete completeHabit);
 

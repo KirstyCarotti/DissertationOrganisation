@@ -14,8 +14,5 @@ namespace DissertationOrganisation.Models
         public DateTime CurrentDate { get; set; }
 
         public string Month { get; set; }
-
-        public List<int> DayArray {get;set;}
-
     }
 }

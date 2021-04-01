@@ -44,10 +44,10 @@ namespace DissertationOrganisation.Services
             return habits;
         }
 
-        public IEnumerable<TodaysHabits> GetTodaysHabits()
+        public IEnumerable<TodaysHabits> GetTodaysHabits(DateTime current)
          {
-
-            DateTime current = _dateTimeService.GetCurrentDateTime();
+            //Todo getPage Date time? 
+           //DateTime current = _dateTimeService.GetCurrentDateTime();
 
             var todaysHabits = new List<TodaysHabits>(); 
             var habits = _context.Habits.ToList();
@@ -64,7 +64,7 @@ namespace DissertationOrganisation.Services
                 {
                     Id = habit.Id,
                     Name = habit.Name,
-                    Description = habit.Description,
+                    Colour = habit.Colour,
                     IsComplete = isComplete != null ? (bool)isComplete : false 
                 };
                 //TODO Make compare date functions > < == 

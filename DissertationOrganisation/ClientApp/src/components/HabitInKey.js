@@ -55,7 +55,7 @@ const HabitInKey = (props) => {
                 setIsMeasurable(response.isMeasurable);
                 setRepeatDays(response.repeatDays);
                 setRepeat(response.repeat);
-                setEndDate(response.endDate.split('T')[0]);
+                setEndDate(response.endDate?.split('T')[0]);
                 setStartDate(response.startDate.split('T')[0]);
                 setDescription(response.description);
                 setName(response.name);
