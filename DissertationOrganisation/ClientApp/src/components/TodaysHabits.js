@@ -33,9 +33,9 @@ const TodaysHabits = (props) => {
     const [modal, setModal] = useState(false);
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
-    const [startDate, setStartDate] = useState("");
-    const [endDate, setEndDate] = useState("");
-    const [repeat, setRepeat] = useState("");
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
+    const [repeat, setRepeat] = useState(null);
     const [repeatDays, setRepeatDays] = useState([]);
     const [isVisible, setIsVisible] = useState(false);
   //  const [displayColourPicker, setDisplayColourPicker] = useState(false)
@@ -49,6 +49,15 @@ const TodaysHabits = (props) => {
 
     function toggle() {
         setModal(!modal);
+        isVisible ? setIsVisible(!isVisible) : setIsVisible(false); 
+        setColour("#207bd7");
+        setIsMeasurable(false);
+        setRepeatDays([]);
+        setRepeat(null);
+        setEndDate(null);
+        setStartDate(null);
+        setDescription("");
+        setName("");
     }
 
     function handleInputChange(event) {

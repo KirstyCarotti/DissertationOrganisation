@@ -10,9 +10,9 @@ namespace DissertationOrganisation.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public DateTime StartDate { get; set; } //start date just defaults to the date made 
+        public DateTime? StartDate { get; set; } //start date just defaults to the date made 
         public DateTime? EndDate { get; set; } //can be nullable goes on forever 
-        public Repeat Repeat { get; set; }
+        public Repeat? Repeat { get; set; }
         public IEnumerable<int> RepeatDays {get; set;}
         public string Colour { get; set; } //The colour assigned to the Habit in HEX
         public bool Mesurable { get; set; }

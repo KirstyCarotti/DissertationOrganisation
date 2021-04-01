@@ -13,9 +13,11 @@ namespace DissertationOrganisation.Controllers
     public class HabitsController : Controller
     {
         private readonly IHabitService habitService; 
-        public HabitsController(IHabitService habitService)
+        private readonly IDateTimeService dateTimeService; 
+        public HabitsController(IHabitService habitService, IDateTimeService dateTimeService)
         {
             this.habitService = habitService; 
+            this.dateTimeService = dateTimeService; 
         }
 
         [HttpGet]
@@ -45,9 +47,9 @@ namespace DissertationOrganisation.Controllers
                 Id = habitModel.Id,
                 Name = habitModel.Name,
                 Description = habitModel.Description,
-                StartDate = habitModel.StartDate,
+                StartDate = habitModel.StartDate==null? dateTimeService.GetCurrentDateTime() :(DateTime) habitModel.StartDate,
                 EndDate = habitModel.EndDate,
-                Repeat = habitModel.Repeat,
+                Repeat = habitModel.Repeat==null? Repeat.NoRepeat :(Repeat) habitModel.Repeat,
                 RepeatDays = (RepeatDays)result,
                 Colour = habitModel.Colour,
                 Mesurable = habitModel.Mesurable,

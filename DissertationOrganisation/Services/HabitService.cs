@@ -64,16 +64,39 @@ namespace DissertationOrganisation.Services
                     Description = habit.Description,
                     IsComplete = isComplete != null ? (bool)isComplete : false 
                 };
-
-                if (habit.StartDate.Year <= current.Year && habit.StartDate.Month <= current.Month && habit.StartDate.Day <= current.Day)
+                //TODO Make compare date functions > < == 
+                if (CompareDateLessThanOrEqual(habit.StartDate, current))
                 {
-                    if(habit.EndDate == null)
+                    //if the habit is weekly and todays DAY is the same as one of the days of the habit 
+                    //if habit is yearly and the day and montha re the same then we good 
+                    //
+                    if(habit.EndDate == null || CompareDateGreaterThanOrEqual(habit.EndDate, current))
                     {
-                        todaysHabits.Add(todayHabit);                                          
-                    }
-                    else
-                    {
-                        if (habit.EndDate?.Year >= current.Year && habit.EndDate?.Month >= current.Month && habit.EndDate?.Day >= current.Day)
+                        if (habit.Repeat == Repeat.NoRepeat)
+                        {
+                            if(CompareDateEquals(habit.StartDate,current))
+                            {
+                                todaysHabits.Add(todayHabit);
+                            }
+                        }
+                        else if (habit.Repeat == Repeat.Weekly)
+                        {
+                            var todaysDay = current.DayOfWeek.ToString();
+                            foreach (var repeatDay in GetFlags(habit.RepeatDays)) {
+                                if (repeatDay.ToString().Equals(todaysDay))
+                                {
+                                    todaysHabits.Add(todayHabit);
+                                }
+                            }
+                        }
+                        else if (habit.Repeat == Repeat.Yearly)
+                        {
+                            if(CompareDateYearly(habit.StartDate, current))
+                            {
+                                todaysHabits.Add(todayHabit);
+                            }
+                        }
+                        else if (habit.Repeat == Repeat.Everyday)
                         {
                             todaysHabits.Add(todayHabit);
                         }
@@ -81,6 +104,65 @@ namespace DissertationOrganisation.Services
                 }
             }
             return todaysHabits;
+        }
+
+        //Move this to an enum service TODO 
+        private IEnumerable<Enum> GetFlags(Enum repeatDays)
+        {
+                foreach (Enum value in Enum.GetValues(repeatDays.GetType()))
+                    if (repeatDays.HasFlag(value))
+                        yield return value;
+        }
+
+        private bool CompareDateYearly(DateTime startDate, DateTime current)
+        {
+            if (startDate.Month == current.Month && startDate.Day == current.Day)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool CompareDateEquals(DateTime startDate, DateTime current)
+        {
+            if (startDate.Year == current.Year && startDate.Month == current.Month && startDate.Day == current.Day)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool CompareDateGreaterThanOrEqual(DateTime? endDate, DateTime current)
+        {
+            if (endDate == null)
+            {
+                return false; 
+            }
+            if (endDate?.Year >= current.Year && endDate?.Month >= current.Month)
+            {
+                if (endDate?.Month == current.Month && endDate?.Day < current.Day)
+                {
+                    return false;
+                }
+                return true;
+            }
+            return false;
+
+        }
+
+        private bool CompareDateLessThanOrEqual(DateTime startDate, DateTime current)
+        {
+            //if start year is less tahn current yeat 
+            //if start month is less than current month 
+            if(startDate.Year <= current.Year && startDate.Month <= current.Month)
+            {
+                if (startDate.Month == current.Month && startDate.Day > current.Day)
+                {
+                    return false;
+                }
+                return true; 
+            }
+            return false; 
         }
 
         public void UpdateHabit(int id, Habit updatedHabit)
