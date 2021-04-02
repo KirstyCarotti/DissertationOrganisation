@@ -170,8 +170,17 @@ namespace DissertationOrganisation.Services
 
         public void UpdateHabit(int id, Habit updatedHabit)
         {
-            var user = GetHabit(id);
-            user.Name = updatedHabit.Name;
+            var habit = GetHabit(id);
+            habit.Name = updatedHabit.Name;
+            habit.Mesurable = updatedHabit.Mesurable;
+            habit.NumberOfBlocks = updatedHabit.NumberOfBlocks;
+            habit.Repeat = updatedHabit.Repeat;
+            habit.RepeatDays = updatedHabit.RepeatDays;
+            habit.RepresentationOfBlocks = updatedHabit.RepresentationOfBlocks;
+            habit.StartDate = updatedHabit.StartDate;
+            habit.EndDate = updatedHabit.EndDate;
+            habit.Colour = updatedHabit.Colour;
+            habit.Description = updatedHabit.Description; 
             _context.SaveChanges();
         }
 

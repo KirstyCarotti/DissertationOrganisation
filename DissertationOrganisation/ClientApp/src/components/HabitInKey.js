@@ -51,7 +51,7 @@ const HabitInKey = (props) => {
             })
             .then(res => res.json())
             .then(response => {
-                setColour(response.colour == null ? response.colour : "");
+                setColour(response.colour != null ? response.colour : "");
                 setIsMeasurable(response.isMeasurable);
                 setRepeatDays(response.repeatDays);
                 setRepeat(response.repeat);
@@ -132,7 +132,7 @@ const HabitInKey = (props) => {
             })
             .catch(e => console.log(e));
         setUpdate(!update)
-
+        console.log(colour)
     }
     if (success) {
         return (
