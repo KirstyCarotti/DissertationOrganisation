@@ -1,0 +1,30 @@
+﻿body {
+}
+
+
+.schedule{
+    max-width: 400px; 
+    min-width: 400px; 
+    float: left;
+    margin-top: 10px; 
+    margin-right: 10px; 
+}
+
+
+.addEvent{
+    width: 30px;
+    height: 30px;
+}
+
+    .addEvent :hover {
+        background: #6d6464;
+        cursor: pointer;
+    }
+
+    .timeCol{
+        max-width: 20px; 
+    }
+
+    .scheduleTitle{
+        text-align: left; 
+    }

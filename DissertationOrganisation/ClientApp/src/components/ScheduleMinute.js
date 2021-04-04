@@ -5,10 +5,9 @@ import {
 
 const ScheduleMinute = (props) => {
     const { timeBlock, events } = props;
-    const [stringOut, updateStringOut] = useState("")
     var eventsInBlock = []
 
-
+    console.log(events)
 
 
 
@@ -17,10 +16,9 @@ const ScheduleMinute = (props) => {
         events.map(event => {
 
             if (event.startTime > block) {
-                updateStringOut(stringOut.concat(" start"))
-            }
-            if (event.endTime < block + 1) {
-                updateStringOut(stringOut.concat(" end"))
+                if (event.endTime < block + 1) {
+                    
+                }
             }
         })
 

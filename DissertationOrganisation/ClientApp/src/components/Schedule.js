@@ -21,7 +21,7 @@ import {
 } from 'reactstrap';
 import { FaRegPlusSquare } from 'react-icons/fa';
 import ScheduleMinute from './ScheduleMinute.js';
-import './List.css';
+import './Schedule.css';
 
 
 const Schedule = (props) => {
@@ -109,26 +109,26 @@ const Schedule = (props) => {
     }, [update])
 
     return (
-        <div>
+        <div className = "schedule">
             <Table>
                 <thead> 
                     <tr>
-                        <th />
-                        <th>Schedule</th>
+                        <th className="timeCol">  <div onClick={toggle} className="addEvent">
+                            <FaRegPlusSquare className="addEvent" />
+                        </div>
+                            </th>
+                        <th className= "scheduleTitle">Schedule</th>
                     </tr>
                 </thead>
                 {times.map(time =>
                     <tr key={time}>
-                        <td>{time}</td>
+                        <td className="timeCol">{time}</td>
                         <td>
                             <ScheduleMinute timeBlock={time} events={events} needUpdate={setUpdate} currentUpdate={update}/> 
                         </td> 
                     </tr>
                 )}
             </Table>
-            <div onClick={toggle} className="addButton">
-                <FaRegPlusSquare className="addButton" />
-            </div>
             <div>
                 <Modal isOpen={modal} toggle={toggle}>
                     <ModalHeader toggle={toggle}>Add Event</ModalHeader>

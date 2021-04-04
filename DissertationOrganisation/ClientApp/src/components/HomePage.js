@@ -10,8 +10,8 @@ const HomePage = (props) => {
         return (
             <div>
                 <Datetime setDate={setDate} />
+                <Schedule currentDate={date} />
                 <Lists currentDate={date} />
-                <Schedule currentDate = {date} />
         </div>
     );
   

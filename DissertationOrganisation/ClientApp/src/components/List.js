@@ -73,9 +73,7 @@ const List = (props) => {
 
         return (
             <div>
-                <Row>
-                    <Col sm="6">
-                        <Card id={id} >
+                        <Card id={id} className="listContainer">
                             <CardTitle className="listTitle">{name}</CardTitle>
                                 <div onClick={toggle} className="addButton">
                                     <FaRegPlusSquare className="addButton" />
@@ -86,8 +84,6 @@ const List = (props) => {
                                     )}
                             </CardBody>
                         </Card>
-                    </Col>
-                </Row>
                 <div>
                     <Modal isOpen={modal} toggle={toggle}>
                         <ModalHeader toggle={toggle}>Add Item</ModalHeader>
