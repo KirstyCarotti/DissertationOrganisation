@@ -29,6 +29,16 @@ namespace DissertationOrganisation.Controllers
         {
             return CreatedAtAction("Get", new { id = e.Id }, eventService.AddEvent(e));
         }
+
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, [FromBody] Event e)
+        {
+
+            eventService.UpdateEvent(id, e);
+            return NoContent();
+        }
+
         /*
         // GET api/lists/5
         [HttpGet("{id}")]

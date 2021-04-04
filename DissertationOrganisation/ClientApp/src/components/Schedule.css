@@ -28,3 +28,20 @@
     .scheduleTitle{
         text-align: left; 
     }
+
+
+.event {
+    background: #00ff21;
+    float: left;
+    font-size: 11px; 
+}
+
+td.dataCol{
+    padding:unset; 
+    border-top: unset; 
+}
+
+.removePadding {
+    padding: unset;
+    border-top: 1px solid #dee2e6;
+}

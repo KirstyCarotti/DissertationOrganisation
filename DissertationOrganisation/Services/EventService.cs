@@ -32,5 +32,22 @@ namespace DissertationOrganisation.Services
                     .ToList();
             return events;
         }
+
+        public void UpdateEvent(int id, Event e)
+        {
+            var _event = GetEvent(id);
+            _event.Name = e.Name;
+            _event.Description = e.Description;
+            _event.Location = e.Location;
+            _event.Date = e.Date;
+            _event.StartTime = e.StartTime;
+            _event.EndTime = e.EndTime; 
+            _context.SaveChanges();
+        }
+
+        public Event GetEvent(int id)
+        {
+            return GetEvents().Where(x => x.Id == id).FirstOrDefault();
+        }
     }
 }

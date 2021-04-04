@@ -7,6 +7,7 @@
     <IsPackable>false</IsPackable>
     <SpaRoot>ClientApp\</SpaRoot>
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
+    <UserSecretsId>acc9e5d1-83cf-4c27-a77f-f115eac0396a</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

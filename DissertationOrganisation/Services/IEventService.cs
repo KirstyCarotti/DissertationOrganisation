@@ -9,5 +9,7 @@ namespace DissertationOrganisation.Services
     {
         public IEnumerable<Event> GetEvents();
         public Event AddEvent(Event e);
+        void UpdateEvent(int id, Event e);
+        public Event GetEvent(int id);
     }
 }

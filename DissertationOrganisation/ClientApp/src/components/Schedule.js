@@ -18,6 +18,7 @@ import {
     FormGroup,
     Label,
     Input,
+    Container
 } from 'reactstrap';
 import { FaRegPlusSquare } from 'react-icons/fa';
 import ScheduleMinute from './ScheduleMinute.js';
@@ -38,6 +39,12 @@ const Schedule = (props) => {
     const [update, setUpdate] = useState(true);
 
     const times = ['7:00', '8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', ]
+
+    const block1 = parseInt("00");
+    const block2 = 15;
+    const block3 = 30;
+    const block4 = 45;
+
 
     function toggle() {
         setModal(!modal);
@@ -123,8 +130,24 @@ const Schedule = (props) => {
                 {times.map(time =>
                     <tr key={time}>
                         <td className="timeCol">{time}</td>
-                        <td>
-                            <ScheduleMinute timeBlock={time} events={events} needUpdate={setUpdate} currentUpdate={update}/> 
+                        <td className = "dataCol">
+                            <Container>
+                                <Row xs="1">
+                                    <Col className="removePadding">
+                                        <ScheduleMinute timeBlock={time} subBlock={block1} events={events} setUpdate={setUpdate} update={update} />
+                                    </Col>
+                                    <Col className="removePadding">
+                                        <ScheduleMinute timeBlock={time} subBlock={block2} events={events} setUpdate={setUpdate} update={update} />
+                                        </Col>
+                                    <Col className="removePadding">
+                                        <ScheduleMinute timeBlock={time} subBlock={block3} events={events} setUpdate={setUpdate} update={update} />
+                                    </Col>
+                                    <Col className="removePadding">
+                                        <ScheduleMinute timeBlock={time} subBlock={block4} events={events} setUpdate={setUpdate} update={update} />
+                                    </Col>
+                                </Row>
+                            </Container>
+                            
                         </td> 
                     </tr>
                 )}
