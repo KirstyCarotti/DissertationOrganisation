@@ -22,21 +22,32 @@ import {
 } from 'reactstrap';
 import { FaRegPlusSquare } from 'react-icons/fa';
 import ScheduleMinute from './ScheduleMinute.js';
+import RepeatSelect from './RepeatSelect.js';
+import RepeatDays from './RepeatDays.js';
 import './Schedule.css';
 
 
 const Schedule = (props) => {
     const { currentDate } = props;
-
+    console.log(currentDate)
     const [events, setEvents] = useState([])
     const [modal, setModal] = useState(false);
+
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [location, setLocation] = useState("");
-    const [date, setDate] = useState(currentDate);
+    const [startDate, setStartDate] = useState(currentDate.split('T')[0]);
+    const [endDate, setEndDate] = useState(currentDate.split('T')[0]);
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
+    const [repeat, setRepeat] = useState(null);
+    const [repeatDays, setRepeatDays] = useState([]);
+    const [colour, setColour] = useState("");
+    const [isAllDay, setIsAllDay] = useState(false);
+
     const [update, setUpdate] = useState(true);
+    const [isVisible, setIsVisible] = useState(false);
+    const [isVisibleTime, setIsVisibleTime] = useState(true);
 
     const times = ['7:00', '8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', ]
 
@@ -48,6 +59,16 @@ const Schedule = (props) => {
 
     function toggle() {
         setModal(!modal);
+        isVisible ? setIsVisible(!isVisible) : setIsVisible(false);
+        isVisibleTime ? setIsVisibleTime(isVisibleTime) : setIsVisibleTime(true);
+        setColour("#207bd7");
+        setRepeatDays([]);
+        setRepeat(null);
+        setEndDate(null);
+        setStartDate(null);
+        setDescription("");
+        setTitle("");
+        setIsAllDay(false)
     }
 
     function handleInputChange(event) {
@@ -64,8 +85,11 @@ const Schedule = (props) => {
         else if (name === "location") {
             setLocation(value)
         }
-        else if (name === "date") {
-            setDate(value)
+        else if (name === "startDate") {
+            setStartDate(value)
+        }
+        else if (name === "endDate") {
+            setEndDate(value)
         }
         else if (name === "startTime") {
             setStartTime(value)
@@ -73,11 +97,17 @@ const Schedule = (props) => {
         else if (name === "endTime") {
             setEndTime(value)
         }
+        else if (name === "colour") {
+            setColour(value)
+        }
+        else if (name === "allDay") {
+            setIsAllDay(!isAllDay)
+            setIsVisibleTime(!isVisibleTime)
+        }
 
     }
 
     function addEvent(e) {
-        toggle();
         fetch('https://localhost:44388/api/events/',
             {
                 method: "Post",
@@ -89,12 +119,19 @@ const Schedule = (props) => {
                     name: title,
                     description: description,
                     location: location,
-                    date: date,
+                    startDate: startDate,
+                    endDate: endDate,
                     startTime: startTime,
-                    endTime: endTime
+                    endTime: endTime,
+                    repeat: repeat,
+                    repeatDays: repeatDays,
+                    colour: colour,
+                    isAllDay: isAllDay
+
                 }),
             })
             .then(setUpdate(!update))
+            .then(toggle())
             .catch(e => console.log(e));
     }
 
@@ -114,6 +151,7 @@ const Schedule = (props) => {
             .catch(e => console.log(e));
 
     }, [update])
+
 
     return (
         <div className = "schedule">
@@ -169,17 +207,78 @@ const Schedule = (props) => {
                                 <Label>Location</Label>
                                 <Input type="text" name="location" id="exampleText" onChange={handleInputChange} />
                             </FormGroup>
+                            <div className="habitDate">
+                                <Label>Start Date</Label>
+                                <Input
+                                    className="date"
+                                    type="date"
+                                    name="startDate"
+                                    id="exampleDate"
+                                    defaultValue={currentDate.split('T')[0]}
+                                    onChange={handleInputChange}
+                                />
+                            </div>
+                            <div className="endDate">
+                                <Label>End Date</Label>
+                                <Input
+                                    className="date"
+                                    type="date"
+                                    name="endDate"
+                                    id="exampleDate"
+                                    defaultValue={currentDate.split('T')[0]}
+                                    onChange={handleInputChange}
+                                />
+                            </div>
+                            <div className="measurable">
+                                <Input type="checkbox" name="allDay" checked={isAllDay} onChange={handleInputChange} />
+                                <span>All Day</span>
+                            </div>
+                            {isVisibleTime &&
+                                <div>
+                                    <div className="habitDate">
+                                        <Label>Start Time</Label>
+                                        <Input
+                                            className="time"
+                                            type="time"
+                                            name="startTime"
+                                            id="exampleTime"
+                                            defaultValue={currentDate.split('T')[1]}
+                                            onChange={handleInputChange}
+                                        />
+                                    </div>
+                                    <div className="endDate">
+                                        <Label>End Time</Label>
+                                        <Input
+                                            className="time"
+                                            type="time"
+                                            name="endTime"
+                                            id="exampleTime"
+                                            defaultValue={currentDate.split('T')[1]}
+                                            onChange={handleInputChange}
+                                        />
+                                    </div>
+                                </div>}
                             <FormGroup>
-                                <Label>Date</Label>
-                                <Input type="date" name="date" id="exampleText" defaultValue={currentDate.split('T')[0]} onChange={handleInputChange} />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label>Start Time</Label>
-                                <Input type="time" name="startTime" id="exampleText" defaultValue={currentDate.split('T')[1]} onChange={handleInputChange} />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label>EndTime</Label>
-                                <Input type="time" name="endTime" id="exampleText" defaultValue={currentDate.split('T')[1]} onChange={handleInputChange} />
+                                <Row>
+                                    <Col>
+                                        <div className="repeat">
+                                            <Label>Repeat</Label>
+                                            <RepeatSelect repeat={repeat} setRepeat={setRepeat} setIsVisible={setIsVisible} />
+                                        </div>
+
+                                        <div>
+                                            <div /*HexColorPicker color={colour} onChange={handleChange} */ />
+                                            <Label>Colour </Label>
+                                            <Input type="text" name="colour" id="colour" onChange={handleInputChange} defaultValue={colour} />
+                                        </div>
+
+                                    </Col>
+                                    <Col>
+                                        <div className="weekly">
+                                            <RepeatDays isVisible={isVisible} repeatDays={repeatDays} setRepeatDays={setRepeatDays} />
+                                        </div>
+                                    </Col>
+                                </Row>
                             </FormGroup>
                         </Form>
                     </ModalBody>

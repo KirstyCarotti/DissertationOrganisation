@@ -76,7 +76,7 @@ const ScheduleMinute = (props) => {
 
         }
         setEventsInBlock(blockEvents)
-    }, [events])
+    }, [events, update])
 
 
     if (hasEvent) {

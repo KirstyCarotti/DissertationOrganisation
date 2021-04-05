@@ -13,27 +13,98 @@ namespace DissertationOrganisation.Controllers
     public class EventsController : Controller
     {
         private readonly IEventService eventService; 
-        public EventsController(IEventService eventService)
+        private readonly IDateTimeService dateTimeService; 
+        public EventsController(IEventService eventService, IDateTimeService dateTimeService)
         {
-            this.eventService = eventService; 
+            this.eventService = eventService;
+            this.dateTimeService = dateTimeService;
         }
-        
+
         [HttpGet]
-        public  IEnumerable<Event> Get()
+        public IEnumerable<EventModel> Get()
         {
-            return eventService.GetEvents();// eventService.GetLists();
+            var result = eventService.GetEvents();
+            List<EventModel> events = new List<EventModel>(); 
+            foreach (Event e in result) { 
+            var repeatArray = eventService.GetFlags(e.Repeat);
+            var repeatArrayInt = repeatArray.Select(x => Convert.ToInt32(x));
+
+                EventModel eventModel = new EventModel
+                {
+                Id = e.Id,
+                Name = e.Name,
+                Description = e.Description,
+                Location = e.Location,
+                StartDate = e.StartDate,
+                EndDate = e.EndDate,
+                StartTime = e.StartTime,
+                EndTime= e.EndTime,
+                Repeat = e.Repeat,
+                RepeatDays = repeatArrayInt,
+                Colour = e.Colour,
+                IsAllDay=e.IsAllDay
+            };
+                events.Add(eventModel);
+        }
+
+            return events;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Event e)
+        public async Task<IActionResult> Post([FromBody] EventModel eventModel)
         {
+
+            RepeatDays[] repeatDays = eventModel.RepeatDays.Select(o => (RepeatDays)o).ToArray();
+            RepeatDays result = 0;
+            foreach (RepeatDays f in repeatDays)
+            {
+                result |= (RepeatDays)f;
+            }
+            Event e = new Event
+            {
+                Id = eventModel.Id,
+                Name = eventModel.Name,
+                Description = eventModel.Description,
+                Location = eventModel.Location,
+                StartDate = eventModel.StartDate == null ? dateTimeService.GetCurrentDateTime() : (DateTime)eventModel.StartDate,
+                EndDate = eventModel.EndDate,
+                Repeat = eventModel.Repeat == null ? Repeat.NoRepeat : (Repeat)eventModel.Repeat,
+                RepeatDays = (RepeatDays)result,
+                Colour = eventModel.Colour,
+                StartTime = eventModel.IsAllDay? "": eventModel.StartTime,
+                EndTime= eventModel.IsAllDay? "" : eventModel.EndTime,
+                IsAllDay = eventModel.IsAllDay
+
+            };
+
             return CreatedAtAction("Get", new { id = e.Id }, eventService.AddEvent(e));
         }
 
-
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] Event e)
+        public async Task<IActionResult> Put(int id, [FromBody] EventModel eventModel)
         {
+            RepeatDays[] repeatDays = eventModel.RepeatDays.Select(o => (RepeatDays)o).ToArray();
+            RepeatDays result = 0;
+            foreach (RepeatDays f in repeatDays)
+            {
+                result |= (RepeatDays)f;
+            }
+            Event e = new Event
+            {
+                Id = eventModel.Id,
+                Name = eventModel.Name,
+                Description = eventModel.Description,
+                Location = eventModel.Location,
+                StartDate = eventModel.StartDate == null ? dateTimeService.GetCurrentDateTime() : (DateTime)eventModel.StartDate,
+                EndDate = eventModel.EndDate,
+                Repeat = eventModel.Repeat == null ? Repeat.NoRepeat : (Repeat)eventModel.Repeat,
+                RepeatDays = (RepeatDays)result,
+                Colour = eventModel.Colour,
+                StartTime = eventModel.IsAllDay ? "" : eventModel.StartTime,
+                EndTime = eventModel.IsAllDay ? "" : eventModel.EndTime,
+                IsAllDay = eventModel.IsAllDay
+
+            };
 
             eventService.UpdateEvent(id, e);
             return NoContent();
