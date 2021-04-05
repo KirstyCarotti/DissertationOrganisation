@@ -25,9 +25,13 @@ namespace DissertationOrganisation.Controllers
         {
             var result = eventService.GetEvents();
             List<EventModel> events = new List<EventModel>(); 
-            foreach (Event e in result) { 
-            var repeatArray = eventService.GetFlags(e.Repeat);
-            var repeatArrayInt = repeatArray.Select(x => Convert.ToInt32(x));
+            foreach (Event e in result) {
+                IEnumerable<int> repeatArrayInt= null;
+                if (e.RepeatDays != null)
+                {
+                    var repeatArray = eventService.GetFlags(e.RepeatDays);
+                    repeatArrayInt = repeatArray.Select(x => Convert.ToInt32(x));
+                }
 
                 EventModel eventModel = new EventModel
                 {
@@ -55,10 +59,14 @@ namespace DissertationOrganisation.Controllers
         {
 
             RepeatDays[] repeatDays = eventModel.RepeatDays.Select(o => (RepeatDays)o).ToArray();
-            RepeatDays result = 0;
+            RepeatDays? result = null;
             foreach (RepeatDays f in repeatDays)
             {
                 result |= (RepeatDays)f;
+            }
+            if (eventModel.Repeat == null || eventModel.Repeat != Repeat.Weekly)
+            {
+                result = null;
             }
             Event e = new Event
             {
@@ -69,7 +77,7 @@ namespace DissertationOrganisation.Controllers
                 StartDate = eventModel.StartDate == null ? dateTimeService.GetCurrentDateTime() : (DateTime)eventModel.StartDate,
                 EndDate = eventModel.EndDate,
                 Repeat = eventModel.Repeat == null ? Repeat.NoRepeat : (Repeat)eventModel.Repeat,
-                RepeatDays = (RepeatDays)result,
+                RepeatDays = (RepeatDays?)result,
                 Colour = eventModel.Colour,
                 StartTime = eventModel.IsAllDay? "": eventModel.StartTime,
                 EndTime= eventModel.IsAllDay? "" : eventModel.EndTime,
@@ -84,10 +92,13 @@ namespace DissertationOrganisation.Controllers
         public async Task<IActionResult> Put(int id, [FromBody] EventModel eventModel)
         {
             RepeatDays[] repeatDays = eventModel.RepeatDays.Select(o => (RepeatDays)o).ToArray();
-            RepeatDays result = 0;
+            RepeatDays? result = null;
             foreach (RepeatDays f in repeatDays)
             {
                 result |= (RepeatDays)f;
+            }
+            if (eventModel.Repeat == null || eventModel.Repeat != Repeat.Weekly){
+                result = null;
             }
             Event e = new Event
             {
@@ -98,7 +109,7 @@ namespace DissertationOrganisation.Controllers
                 StartDate = eventModel.StartDate == null ? dateTimeService.GetCurrentDateTime() : (DateTime)eventModel.StartDate,
                 EndDate = eventModel.EndDate,
                 Repeat = eventModel.Repeat == null ? Repeat.NoRepeat : (Repeat)eventModel.Repeat,
-                RepeatDays = (RepeatDays)result,
+                RepeatDays = (RepeatDays?)result,
                 Colour = eventModel.Colour,
                 StartTime = eventModel.IsAllDay ? "" : eventModel.StartTime,
                 EndTime = eventModel.IsAllDay ? "" : eventModel.EndTime,

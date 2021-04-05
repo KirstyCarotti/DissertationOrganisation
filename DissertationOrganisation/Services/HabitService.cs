@@ -77,7 +77,7 @@ namespace DissertationOrganisation.Services
                     {
                         if (habit.Repeat == Repeat.NoRepeat)
                         {
-                            if(CompareDateEquals(habit.StartDate,current))
+                            if (CompareDateEquals(habit.StartDate, current))
                             {
                                 todaysHabits.Add(todayHabit);
                             }
@@ -85,10 +85,13 @@ namespace DissertationOrganisation.Services
                         else if (habit.Repeat == Repeat.Weekly)
                         {
                             var todaysDay = current.DayOfWeek.ToString();
-                            foreach (var repeatDay in GetFlags(habit.RepeatDays)) {
-                                if (repeatDay.ToString().Equals(todaysDay))
+                            if (habit.RepeatDays != null) { 
+                                foreach (var repeatDay in GetFlags(habit.RepeatDays))
                                 {
-                                    todaysHabits.Add(todayHabit);
+                                    if (repeatDay.ToString().Equals(todaysDay))
+                                    {
+                                        todaysHabits.Add(todayHabit);
+                                    }
                                 }
                             }
                         }
@@ -112,7 +115,7 @@ namespace DissertationOrganisation.Services
         //Move this to an enum service TODO 
         public IEnumerable<Enum> GetFlags(Enum repeatDays)
         {
-                foreach (Enum value in Enum.GetValues(repeatDays.GetType()))
+            foreach (Enum value in Enum.GetValues(repeatDays.GetType()))
                     if (repeatDays.HasFlag(value))
                         yield return value;
         }

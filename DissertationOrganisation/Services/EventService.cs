@@ -54,11 +54,14 @@ namespace DissertationOrganisation.Services
                         else if (e.Repeat == Repeat.Weekly)
                         {
                             var todaysDay = current.DayOfWeek.ToString();
-                            foreach (var repeatDay in GetFlags(e.RepeatDays))
+                            if (e.RepeatDays != null)
                             {
-                                if (repeatDay.ToString().Equals(todaysDay))
+                                foreach (var repeatDay in GetFlags(e.RepeatDays))
                                 {
-                                    todaysEvents.Add(e);
+                                    if (repeatDay.ToString().Equals(todaysDay))
+                                    {
+                                        todaysEvents.Add(e);
+                                    }
                                 }
                             }
                         }
@@ -82,9 +85,11 @@ namespace DissertationOrganisation.Services
         //Move this to an enum service TODO 
         public IEnumerable<Enum> GetFlags(Enum repeatDays)
         {
-            foreach (Enum value in Enum.GetValues(repeatDays.GetType()))
-                if (repeatDays.HasFlag(value))
-                    yield return value;
+
+                foreach (Enum value in Enum.GetValues(repeatDays.GetType()))
+                    if (repeatDays.HasFlag(value))
+                        yield return value;
+           
         }
 
 

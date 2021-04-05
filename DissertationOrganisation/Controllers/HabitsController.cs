@@ -31,9 +31,12 @@ namespace DissertationOrganisation.Controllers
         public IActionResult Get(int id)
         {
            var result = habitService.GetHabit(id);
-
-            var repeatArray = habitService.GetFlags(result.Repeat);
-             var repeatArrayInt =repeatArray.Select(x => Convert.ToInt32(x));
+            IEnumerable<int> repeatArrayInt = null;
+            if (result.RepeatDays != null)
+            {
+                var repeatArray = habitService.GetFlags(result.RepeatDays);
+                repeatArrayInt = repeatArray.Select(x => Convert.ToInt32(x));
+            }
 
             HabitModel habitModel = new HabitModel
             {
@@ -56,10 +59,14 @@ namespace DissertationOrganisation.Controllers
         public async Task<IActionResult> Post([FromBody] HabitModel habitModel)
         {
             RepeatDays[] repeatDays = habitModel.RepeatDays.Select(o => (RepeatDays)o).ToArray();
-            RepeatDays result = 0;
+            RepeatDays? result = null;
             foreach (RepeatDays f in repeatDays)
             {
                 result |= (RepeatDays)f; 
+            }
+            if (habitModel.Repeat == null || habitModel.Repeat != Repeat.Weekly)
+            {
+                result = null;
             }
             Habit habit = new Habit
             {
@@ -69,7 +76,7 @@ namespace DissertationOrganisation.Controllers
                 StartDate = habitModel.StartDate==null? dateTimeService.GetCurrentDateTime() :(DateTime) habitModel.StartDate,
                 EndDate = habitModel.EndDate,
                 Repeat = habitModel.Repeat==null? Repeat.NoRepeat :(Repeat) habitModel.Repeat,
-                RepeatDays = (RepeatDays)result,
+                RepeatDays = (RepeatDays?)result,
                 Colour = habitModel.Colour,
                 Mesurable = habitModel.Mesurable,
                 NumberOfBlocks = habitModel.NumberOfBlocks,
@@ -82,10 +89,14 @@ namespace DissertationOrganisation.Controllers
         public async Task<IActionResult> Put(int id, [FromBody] HabitModel habitModel)
         {
             RepeatDays[] repeatDays = habitModel.RepeatDays.Select(o => (RepeatDays)o).ToArray();
-            RepeatDays result = 0;
+            RepeatDays? result = null;
             foreach (RepeatDays f in repeatDays)
             {
                 result |= (RepeatDays)f;
+            }
+            if (habitModel.Repeat == null || habitModel.Repeat != Repeat.Weekly)
+            {
+                result = null;
             }
             Habit habit = new Habit
             {
@@ -95,7 +106,7 @@ namespace DissertationOrganisation.Controllers
                 StartDate = habitModel.StartDate == null ? dateTimeService.GetCurrentDateTime() : (DateTime)habitModel.StartDate,
                 EndDate = habitModel.EndDate,
                 Repeat = habitModel.Repeat == null ? Repeat.NoRepeat : (Repeat)habitModel.Repeat,
-                RepeatDays = (RepeatDays)result,
+                RepeatDays = (RepeatDays?)result,
                 Colour = habitModel.Colour,
                 Mesurable = habitModel.Mesurable,
                 NumberOfBlocks = habitModel.NumberOfBlocks,

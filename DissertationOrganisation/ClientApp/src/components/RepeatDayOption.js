@@ -11,9 +11,11 @@ import {
      const [isChecked, setIsChecked] = useState(false);
 
      useEffect(() => {
-         for (var i = 0; i < repeatDays.length; i++) {
-             if (repeatDays[i] == id) {
-                 setIsChecked(true);
+         if (repeatDays != null) {
+             for (var i = 0; i < repeatDays.length; i++) {
+                 if (repeatDays[i] == id) {
+                     setIsChecked(true);
+                 }
              }
          }
 
