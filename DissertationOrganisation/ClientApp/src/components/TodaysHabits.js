@@ -41,6 +41,7 @@ const TodaysHabits = (props) => {
   //  const [displayColourPicker, setDisplayColourPicker] = useState(false)
     const [colour, setColour] = useState("#207bd7");
     const [isMeasurable, setIsMeasurable] = useState(false);
+    const [refresh, setRefresh] = useState(false);
 
 
     function handleChange(colour, event) {
@@ -86,6 +87,7 @@ const TodaysHabits = (props) => {
         }
 
     }
+
     useEffect(() => {
         fetch('https://localhost:44388/api/todaysHabits/',
             {
@@ -102,7 +104,7 @@ const TodaysHabits = (props) => {
             })
             .catch(e => console.log(e));
 
-    }, [currentUpdate])
+    }, [currentUpdate, refresh])
 
     function addItem(e) {
         toggle();
@@ -126,6 +128,7 @@ const TodaysHabits = (props) => {
                 }),
             })
             .then(needUpdate(!currentUpdate))
+            .then(setRefresh(refresh))
             .catch(e => console.log(e));
 
 
@@ -135,7 +138,7 @@ const TodaysHabits = (props) => {
         return (
             <div>
             <div className="todaysHabits">
-                <Card className="todaysHabits"/*id={/*id}*/ >
+                <Card className="todaysHabits" >
                     <CardTitle className="listTitle">Todays Habits</CardTitle>
                     <div onClick={toggle} className="addButton">
                         <FaRegPlusSquare className="addButton" />

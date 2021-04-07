@@ -8,7 +8,6 @@ const HabitPageComponent = (props) => {
 
     const [update, setUpdate] = useState(false);
     useEffect(() => {
-    
     }, [update])
     return (
         <span>
