@@ -57,6 +57,7 @@ namespace DissertationOrganisation.Services
                     .Where(listItems => listItems.Date.Day == Globals.GetPageDateTime().Date.Day)
                     .Where(listItems => listItems.Date.Month == Globals.GetPageDateTime().Date.Month)
                     .Where(listItems => listItems.Date.Year == Globals.GetPageDateTime().Date.Year)
+                    .OrderBy(listItems => listItems.State == ListItemState.Complete)
                     .ToList();
             }
             return lists;

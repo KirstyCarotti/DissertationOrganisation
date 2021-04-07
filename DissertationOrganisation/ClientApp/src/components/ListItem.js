@@ -67,7 +67,7 @@ const ListItem = (props) => {
                 }),
             })
             .then(setIsChecked(newState === 0 ? true : false))
-            .then()
+            .then(needUpdate(!currentUpdate))
             .catch(e => console.log(e));
 
         needUpdate(!currentUpdate)
@@ -84,7 +84,7 @@ const ListItem = (props) => {
                     'Content-Type': 'application/json'
                 },
             })
-            .then()
+            .then(needUpdate(!currentUpdate))
             .catch(e => console.log(e));
 
         needUpdate(!currentUpdate)
