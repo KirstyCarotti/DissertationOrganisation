@@ -29,7 +29,7 @@ import './Schedule.css';
 
 const Schedule = (props) => {
     const { currentDate } = props;
-    console.log(currentDate)
+
     const [events, setEvents] = useState([])
     const [modal, setModal] = useState(false);
 
@@ -150,8 +150,10 @@ const Schedule = (props) => {
             })
             .catch(e => console.log(e));
 
-    }, [update])
+    }, [update, currentDate])
 
+
+    console.log(currentDate)
 
     return (
         <div className = "schedule">

@@ -19,6 +19,7 @@ import RepeatDays from './RepeatDays.js';
 const ScheduleMinute = (props) => {
     const { event, isFirst, setUpdate, update } = props;
     const [modal, setModal] = useState(false)
+    const [deleteModal, setDeleteModal] = useState(false)
     const [isVisible, setIsVisible] = useState(false);
     const [isVisibleTime, setIsVisibleTime] = useState(true);
 
@@ -71,7 +72,23 @@ const ScheduleMinute = (props) => {
 
 
     }
-    console.log(colour)
+
+    function deleteEvent(e) {
+        toggle();
+        deleteToggle();
+        fetch('https://localhost:44388/api/events/' + event.id,
+            {
+                method: "Delete",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            })
+            .then(setUpdate(!update))
+            .catch(e => console.log(e));
+
+
+    }
 
     function editEvent(e) {
         fetch('https://localhost:44388/api/events/'+event.id,
@@ -107,7 +124,10 @@ const ScheduleMinute = (props) => {
         isVisibleTime ? setIsVisibleTime(isVisibleTime) : setIsVisibleTime(true);
     }
 
+    const deleteToggle = () => setDeleteModal(!deleteModal);
+
     return (
+        <div>
             <div>
             <Col sm="6" key={event.id} className="event" style={{ backgroundColor: event.colour }}>
                 {event.id === isFirst.id && <span onClick={toggle} >{event.name}</span>}
@@ -204,11 +224,26 @@ const ScheduleMinute = (props) => {
                         </Form>
                     </ModalBody>
                     <ModalFooter>
-                        <Button color="success" onClick={editEvent}>Save</Button>{' '}
-                        <Button color="secondary" onClick={toggle}>Cancel</Button>
-                    </ModalFooter>
+                        <Button color="success" onClick={editEvent}>Save</Button>{' '}                   
+                        <Button color="danger" onClick={deleteToggle}>Delete</Button>
+                    </ModalFooter >
+                </Modal >
+            </div >
+            <div>
+                <Modal isOpen={deleteModal} toggle={deleteToggle}>
+                 <ModalHeader toggle={deleteToggle}>Delete {title}</ModalHeader>
+                <ModalBody>
+                    <div>
+                        <p> Are you sure you want to delete {title}? You will not be able to recover it once deleted. Note: This will delete all occurences of the event. </p>
+                    </div>
+                </ModalBody>
+                <ModalFooter>
+                    <Button color="danger" onClick={deleteEvent}>Delete</Button>
+                    <Button color="secondary" onClick={deleteToggle} >Cancel</Button>{' '}
+                </ModalFooter>
             </Modal>
-            </div>
+        </div>
+        </div>
         )
 
 }

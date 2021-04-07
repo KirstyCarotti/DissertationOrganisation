@@ -29,7 +29,6 @@ const Datetime = (props) => {
     function changeDate(event) {
         const target = event.target;
         const value = target.value;
-        setCurrentDate(value)
 
         fetch('https://localhost:44388/api/datetime',
             {

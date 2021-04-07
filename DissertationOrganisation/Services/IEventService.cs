@@ -12,6 +12,7 @@ namespace DissertationOrganisation.Services
         void UpdateEvent(int id, Event e);
         public Event GetEvent(int id);
         public IEnumerable<Enum> GetFlags(Enum e);
+        void DeleteEvent(int id);
     }
 
 }

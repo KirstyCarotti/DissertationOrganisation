@@ -7,6 +7,7 @@ const HomePage = (props) => {
 
     const [date, setDate] = useState('');
 
+    useEffect(() => { }, [date])
         return (
             <div>
                 <Datetime setDate={setDate} />

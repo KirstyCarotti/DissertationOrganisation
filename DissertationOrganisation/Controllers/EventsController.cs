@@ -121,6 +121,13 @@ namespace DissertationOrganisation.Controllers
             return NoContent();
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+             eventService.DeleteEvent(id);
+            return NoContent();
+        }
+
         /*
         // GET api/lists/5
         [HttpGet("{id}")]

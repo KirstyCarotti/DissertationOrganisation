@@ -167,5 +167,12 @@ namespace DissertationOrganisation.Services
             }
             return false;
         }
+
+        public void DeleteEvent(int id)
+        {
+            var e = _context.Events.Where(x => x.Id == id).FirstOrDefault();
+            _context.Events.Remove(e);
+            _context.SaveChanges();
+        }
     }
 }

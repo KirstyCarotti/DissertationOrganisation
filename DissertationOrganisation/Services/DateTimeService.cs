@@ -12,7 +12,10 @@ namespace DissertationOrganisation.Services
 
         public DateTimeService()
         {
-            Globals.SetPageDateTime(GetCurrentDateTime());
+            if (Globals.GetPageDateTime() == new DateTime())
+            {
+                Globals.SetPageDateTime(GetCurrentDateTime());
+            }
         }
 
         public DateTime GetCurrentDateTime()
