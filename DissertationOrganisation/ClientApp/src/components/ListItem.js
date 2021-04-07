@@ -90,7 +90,6 @@ const ListItem = (props) => {
             setTitleValid(true)
         }
     }
-    console.log(titleValid)
 
 
     function deleteListItem(e) {

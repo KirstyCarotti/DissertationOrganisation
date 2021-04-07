@@ -19,7 +19,7 @@ import {
     Label,
     Input,
     Container,
-    FormText
+    FormFeedback
 } from 'reactstrap';
 import { FaRegPlusSquare } from 'react-icons/fa';
 import ScheduleMinute from './ScheduleMinute.js';
@@ -36,20 +36,37 @@ const Schedule = (props) => {
     const [colourModal, setColourModal] = useState(false);
 
     const [title, setTitle] = useState("");
+    const [titleValid, setTitleValid] = useState(false);
+
     const [description, setDescription] = useState("");
+
     const [location, setLocation] = useState("");
+
     const [startDate, setStartDate] = useState(currentDate.split('T')[0]);
+
     const [endDate, setEndDate] = useState(currentDate.split('T')[0]);
-    const [startTime, setStartTime] = useState("");
-    const [endTime, setEndTime] = useState("");
+    const [endDateValid, setEndDateValid] = useState(false);
+
+    const [startTime, setStartTime] = useState(null);
+    const [startTimeValid, setStartTimeValid] = useState(false);
+
+    const [endTime, setEndTime] = useState(null);
+    const [endTimeValid, setEndTimeValid] = useState(false);
+
     const [repeat, setRepeat] = useState(null);
     const [repeatDays, setRepeatDays] = useState([]);
+
     const [colour, setColour] = useState("");
+    const [colourValid, setColourValid] = useState(false);
+
     const [isAllDay, setIsAllDay] = useState(false);
 
     const [update, setUpdate] = useState(true);
     const [isVisible, setIsVisible] = useState(false);
     const [isVisibleTime, setIsVisibleTime] = useState(true);
+
+
+
 
     const times = ['7:00', '8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', ]
 
@@ -66,12 +83,16 @@ const Schedule = (props) => {
         setColour("#207bd7");
         setRepeatDays([]);
         setRepeat(null);
-        setEndDate(null);
-        setStartDate(null);
+        setEndDate(currentDate.split('T')[0]);
+        setStartDate(currentDate.split('T')[0]);
+        setStartTime(null)
+        setEndTime(null)
         setDescription("");
         setTitle("");
         setIsAllDay(false)
+
     }
+
     function colourToggle() {
         setColourModal(!colourModal)
     }
@@ -109,35 +130,108 @@ const Schedule = (props) => {
             setIsAllDay(!isAllDay)
             setIsVisibleTime(!isVisibleTime)
         }
-
+        validate()
     }
 
-    function addEvent(e) {
-        fetch('https://localhost:44388/api/events/',
-            {
-                method: "Post",
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    name: title,
-                    description: description,
-                    location: location,
-                    startDate: startDate,
-                    endDate: endDate,
-                    startTime: startTime,
-                    endTime: endTime,
-                    repeat: repeat,
-                    repeatDays: repeatDays,
-                    colour: colour,
-                    isAllDay: isAllDay
+    function validate() {
 
-                }),
-            })
-            .then(setUpdate(!update))
-            .then(toggle())
-            .catch(e => console.log(e));
+        if (title.length <= 0) {
+            setTitleValid(false)
+        } else {
+            setTitleValid(true)
+        }
+
+        if (endDate == null) {
+            setEndDate(true);
+        } else {
+            var startSplit = startDate.split('-');
+            var endSplit = endDate.split('-');
+            if (parseInt(startSplit[0]) < parseInt(endSplit[0])) {
+                setEndDateValid(true)
+            } else if (parseInt(startSplit[0]) === parseInt(endSplit[0])) {
+                if (parseInt(startSplit[1]) < parseInt(endSplit[1])) {
+                    setEndDateValid(true)
+                } else if (parseInt(startSplit[1]) === parseInt(endSplit[1])) {
+                    if (parseInt(startSplit[2]) <= parseInt(endSplit[2])) {
+                        setEndDateValid(true)
+                    } else {
+                        setEndDateValid(false)
+                    }
+                } else {
+                    setEndDateValid(false)
+                }
+            }else {
+                setEndDateValid(false)
+            }
+        }
+
+        if (startTime == null && !isAllDay) {
+            setStartTimeValid(false)
+        }else {
+            setStartTimeValid(true)
+        }
+
+        if (endTime == null && !isAllDay) {
+            setEndTimeValid(false)
+        } else {
+            if (startTime == null) {
+                setEndDateValid(false)
+            } else {
+                var startSplit = startTime.split(':');
+                var endSplit = endTime.split(':');
+                if (parseInt(startSplit[0]) < parseInt(endSplit[0])) {
+                    setEndTimeValid(true)
+                } else if (parseInt(startSplit[0]) === parseInt(endSplit[0])) {
+                    if (parseInt(startSplit[1]) <= parseInt(endSplit[1])) {
+                        setEndTimeValid(true)
+                    } else {
+                        setEndTimeValid(false)
+                    }
+                } else {
+                    setEndTimeValid(false)
+                }
+            }
+        }
+
+
+        if (colour.length === 7 && colour.split("")[0] ==='#') {
+            setColourValid(true)
+        } else {
+            setColourValid(false);
+        }
+        
+    }
+
+
+    function addEvent(e) {
+
+        if (titleValid && endDateValid && startTimeValid && endTimeValid && colourValid) {
+            fetch('https://localhost:44388/api/events/',
+                {
+                    method: "Post",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: title,
+                        description: description,
+                        location: location,
+                        startDate: startDate,
+                        endDate: endDate,
+                        startTime: startTime,
+                        endTime: endTime,
+                        repeat: repeat,
+                        repeatDays: repeatDays,
+                        colour: colour,
+                        isAllDay: isAllDay
+
+                    }),
+                })
+                .then(setUpdate(!update))
+                .then(toggle())
+                .catch(e => console.log(e));
+        }
     }
 
     useEffect(() => {
@@ -154,11 +248,13 @@ const Schedule = (props) => {
                 setEvents(response);
             })
             .catch(e => console.log(e));
-
     }, [update, currentDate])
 
 
-    console.log(currentDate)
+    useEffect(() => {
+        validate();
+    }, [title, endDate, startTime, endTime, colour])
+
 
     return (
         <div className = "schedule">
@@ -204,7 +300,8 @@ const Schedule = (props) => {
                         <Form>
                             <FormGroup>
                                 <Label>Name</Label>
-                                <Input type="text" name="title" id="title" onChange={handleInputChange} placeholder="Item name" />
+                                <Input invalid={!titleValid} type="text" name="title" id="title" onChange={handleInputChange} placeholder="Item name" />
+                                {!titleValid && <FormFeedback >Title cannot be empty</FormFeedback>}
                             </FormGroup>
                             <FormGroup>
                                 <Label>Description</Label>
@@ -234,7 +331,9 @@ const Schedule = (props) => {
                                     id="exampleDate"
                                     defaultValue={currentDate.split('T')[0]}
                                     onChange={handleInputChange}
+                                    invalid={!endDateValid}
                                 />
+                                {!endDateValid && <FormFeedback >End Date cannot be before start date</FormFeedback>}
                             </div>
                             <div className="measurable">
                                 <Input type="checkbox" name="allDay" checked={isAllDay} onChange={handleInputChange} />
@@ -245,13 +344,15 @@ const Schedule = (props) => {
                                     <div className="habitDate">
                                         <Label>Start Time</Label>
                                         <Input
-                                            className="time"
-                                            type="time"
-                                            name="startTime"
-                                            id="exampleTime"
-                                            defaultValue={currentDate.split('T')[1]}
-                                            onChange={handleInputChange}
-                                        />
+                                        className="time"
+                                        type="time"
+                                        name="startTime"
+                                        id="exampleTime"
+                                        defaultValue={currentDate.split('T')[1]}
+                                        onChange={handleInputChange}
+                                        invalid={!startTimeValid}
+                                    />
+                                    {!startTimeValid && <FormFeedback>Cannot be empty</FormFeedback>}
                                     </div>
                                     <div className="endDate">
                                         <Label>End Time</Label>
@@ -261,8 +362,11 @@ const Schedule = (props) => {
                                             name="endTime"
                                             id="exampleTime"
                                             defaultValue={currentDate.split('T')[1]}
-                                            onChange={handleInputChange}
-                                        />
+                                        onChange={handleInputChange}
+                                        invalid={!endTimeValid}
+                                    />
+                                        {!endTimeValid && <FormFeedback>Cannot be empty, must be after start time </FormFeedback>}
+                                        
                                     </div>
                                 </div>}
                             <FormGroup>
@@ -276,7 +380,8 @@ const Schedule = (props) => {
                                         <div>
                                             <div /*HexColorPicker color={colour} onChange={handleChange} */ />
                                             <Label>Colour<span className="questionMark" onClick={colourToggle}>?</span></Label>
-                                            <Input type="text" name="colour" id="colour" onChange={handleInputChange} defaultValue={colour} />
+                                            <Input invalid={!colourValid} type="text" name="colour" id="colour" onChange={handleInputChange} defaultValue={colour} />
+                                            {!colourValid && <FormFeedback>Must be a valid hex colour. A # followed by 6 letters or numbers </FormFeedback>}
                                         </div>
 
                                     </Col>
