@@ -1,4 +1,4 @@
-﻿import React, {useState} from 'react'
+﻿import React, {useState, useEffect} from 'react'
 import {
     FormGroup,
     Input,
@@ -10,6 +10,7 @@ import {
     Form, 
     ModalFooter,
     Button,
+    FormFeedback
 } from 'reactstrap';
 import './List.css';
 import { FaEdit} from 'react-icons/fa';
@@ -21,9 +22,13 @@ const ListItem = (props) => {
     const [modal, setModal] = useState(false);
     const [deleteModal, setDeleteModal] = useState(false);
     const [newTitle, setTitle] = useState(title);
+    const [titleValid, setTitleValid] = useState(true);
     const [newDescription, setDescription] = useState(description);
     const toggle = () => setModal(!modal);
     const deleteToggle = () => setDeleteModal(!deleteModal);
+
+
+    useEffect(() => { validate() }, [newTitle]);
 
     function handleInputChange(event) {
         const target = event.target;
@@ -32,6 +37,7 @@ const ListItem = (props) => {
 
         if (name == "title") {
             setTitle(value);
+            validate();
         }
         else if (name == "description") {
             setDescription(value);
@@ -40,7 +46,6 @@ const ListItem = (props) => {
     }
 
     function handleChange(e) {
-        setModal(false)
         var newState = state;
         if (e.target.name == "complete") {
             if (isChecked) {
@@ -50,28 +55,43 @@ const ListItem = (props) => {
             }
         }
 
-        fetch('https://localhost:44388/api/listItems/' + id,
-            {
-                method: "Put",
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    id: id,
-                    listId: listId,
-                    title: newTitle,
-                    description: newDescription,
-                    listSubItems: null,
-                    state: newState
-                }),
-            })
-            .then(setIsChecked(newState === 0 ? true : false))
-            .then(needUpdate(!currentUpdate))
-            .catch(e => console.log(e));
+        validate();
+        if (titleValid) {
 
-        needUpdate(!currentUpdate)
+
+            fetch('https://localhost:44388/api/listItems/' + id,
+                {
+                    method: "Put",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        id: id,
+                        listId: listId,
+                        title: newTitle,
+                        description: newDescription,
+                        listSubItems: null,
+                        state: newState
+                    }),
+                })
+                .then(setIsChecked(newState === 0 ? true : false))
+                .then(needUpdate(!currentUpdate))
+                .then(setModal(false))
+                .catch(e => console.log(e));
+        }
     }
+
+
+    function validate() {
+        if (newTitle.length <= 0) {
+            setTitleValid(false)
+        } else {
+            setTitleValid(true)
+        }
+    }
+    console.log(titleValid)
+
 
     function deleteListItem(e) {
         toggle();
@@ -110,7 +130,8 @@ const ListItem = (props) => {
                             <Form>
                                 <FormGroup>
                                     <Label>Title</Label>
-                                    <Input type="text" name="title" id="title" onChange={handleInputChange} defaultValue={title} />
+                                <Input invalid={!titleValid} type="text" name="title" id="title" onChange={handleInputChange} defaultValue={title} />
+                                {!titleValid && <FormFeedback >Title cannot be empty</FormFeedback>}
                                 </FormGroup>
                                 <FormGroup>
                                     <Label>Description</Label>

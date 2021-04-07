@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react'
+﻿import React, { useState, useEffect } from 'react'
 import {
     Card,
     CardBody,
@@ -14,6 +14,7 @@ import {
     FormGroup,
     Label,
     Input,
+    FormFeedback
 } from 'reactstrap';
 import { FaRegPlusSquare } from 'react-icons/fa';
 import ListItem from './ListItem.js';
@@ -25,11 +26,17 @@ const List = (props) => {
 
     const [modal, setModal] = useState(false);
     const [title, setTitle] = useState("");
+    const [titleValid, setTitleValid] = useState(false);
     const [description, setDescription] = useState("");
 
 
+    useEffect(() => { validate() }, [title]);
+
     function toggle(){
         setModal(!modal);
+        setTitle("");
+        setDescription("")
+        setTitleValid(false)
     }
 
     function handleInputChange(event){
@@ -43,33 +50,40 @@ const List = (props) => {
         else if (name == "description") {
             setDescription(value);
         }
+    }
 
+    function validate() {
+        if (title.length <=0) {
+            setTitleValid(false)
+        } else {
+            setTitleValid(true)
+        }
     }
 
     function addItem(e) {
-        toggle();
-        fetch('https://localhost:44388/api/listItems/',
-            {
-                method: "Post",
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    listId: id,
-                    title: title,
-                    description: description,
-                    date: currentDate
-                }),
-            })
-            .then(needUpdate(!currentUpdate))
-            .catch(e => console.log(e));
-
+        validate();
+        if (titleValid) {
+            fetch('https://localhost:44388/api/listItems/',
+                {
+                    method: "Post",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        listId: id,
+                        title: title,
+                        description: description,
+                        date: currentDate
+                    }),
+                })
+                .then(needUpdate(!currentUpdate))
+                .then(toggle())
+                .catch(e => console.log(e));
+        }
         
     }
 
-
-    
 
         return (
             <div>
@@ -91,7 +105,8 @@ const List = (props) => {
                             <Form>
                                 <FormGroup>
                                     <Label>Title</Label>
-                                    <Input type="text" name="title" id="title" onChange={handleInputChange} placeholder="Item name" />
+                                    <Input invalid={!titleValid} type="text" name="title" id="title" onChange={handleInputChange} placeholder="Item name" />
+                                    {!titleValid && < FormFeedback >Title cannot be empty</FormFeedback>}
                                 </FormGroup>
                                 <FormGroup>
                                     <Label>Description</Label>
