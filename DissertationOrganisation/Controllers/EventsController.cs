@@ -91,11 +91,15 @@ namespace DissertationOrganisation.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] EventModel eventModel)
         {
-            RepeatDays[] repeatDays = eventModel.RepeatDays.Select(o => (RepeatDays)o).ToArray();
             RepeatDays? result = null;
-            foreach (RepeatDays f in repeatDays)
+            if (eventModel.RepeatDays != null)
             {
-                result |= (RepeatDays)f;
+                RepeatDays[] repeatDays = eventModel.RepeatDays.Select(o => (RepeatDays)o).ToArray();
+
+                foreach (RepeatDays f in repeatDays)
+                {
+                    result |= (RepeatDays)f;
+                }
             }
             if (eventModel.Repeat == null || eventModel.Repeat != Repeat.Weekly){
                 result = null;
