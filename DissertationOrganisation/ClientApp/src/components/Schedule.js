@@ -18,7 +18,8 @@ import {
     FormGroup,
     Label,
     Input,
-    Container
+    Container,
+    FormText
 } from 'reactstrap';
 import { FaRegPlusSquare } from 'react-icons/fa';
 import ScheduleMinute from './ScheduleMinute.js';
@@ -32,6 +33,7 @@ const Schedule = (props) => {
 
     const [events, setEvents] = useState([])
     const [modal, setModal] = useState(false);
+    const [colourModal, setColourModal] = useState(false);
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -69,6 +71,9 @@ const Schedule = (props) => {
         setDescription("");
         setTitle("");
         setIsAllDay(false)
+    }
+    function colourToggle() {
+        setColourModal(!colourModal)
     }
 
     function handleInputChange(event) {
@@ -270,7 +275,7 @@ const Schedule = (props) => {
 
                                         <div>
                                             <div /*HexColorPicker color={colour} onChange={handleChange} */ />
-                                            <Label>Colour </Label>
+                                            <Label>Colour<span className="questionMark" onClick={colourToggle}>?</span></Label>
                                             <Input type="text" name="colour" id="colour" onChange={handleInputChange} defaultValue={colour} />
                                         </div>
 
@@ -280,6 +285,7 @@ const Schedule = (props) => {
                                             <RepeatDays isVisible={isVisible} repeatDays={repeatDays} setRepeatDays={setRepeatDays} />
                                         </div>
                                     </Col>
+                                    
                                 </Row>
                             </FormGroup>
                         </Form>
@@ -287,6 +293,19 @@ const Schedule = (props) => {
                     <ModalFooter>
                         <Button color="success" onClick={addEvent}>Save</Button>{' '}
                         <Button color="secondary" onClick={toggle}>Cancel</Button>
+                    </ModalFooter>
+                </Modal>
+            </div>
+            <div>
+                <Modal isOpen={colourModal} toggle={colourToggle}>
+                    <ModalHeader toggle={colourToggle}>Colour Information</ModalHeader>
+                    <ModalBody>
+                        <div>
+                            <p>Please Insert a HEX Colour this can be chosen from: https://www.w3schools.com/colors/colors_picker.asp  </p>
+                        </div>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="secondary" onClick={colourToggle} >Cancel</Button>{' '}
                     </ModalFooter>
                 </Modal>
             </div>

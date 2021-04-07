@@ -17,7 +17,7 @@ import {
     FormGroup,
     Label,
     Input,
-    Badge,
+    FormText
 } from 'reactstrap';
 import { FaRegPlusSquare } from 'react-icons/fa';
 import RepeatSelect from './RepeatSelect.js';
@@ -43,6 +43,11 @@ const TodaysHabits = (props) => {
     const [isMeasurable, setIsMeasurable] = useState(false);
     const [refresh, setRefresh] = useState(false);
 
+
+    const [colourModal, setColourModal] = useState(false);
+    function colourToggle() {
+        setColourModal(!colourModal)
+    }
 
     function handleChange(colour, event) {
         setColour(colour.hex);
@@ -189,7 +194,7 @@ const TodaysHabits = (props) => {
                                   
                                     <div>
                                         <div /*HexColorPicker color={colour} onChange={handleChange} */ />
-                                                <Label>Colour </Label>
+                                                <Label>Colour<span className="questionMark" onClick={colourToggle}>?</span></Label>
                                                 <Input type="text" name="colour" id="colour" onChange={handleInputChange} defaultValue={colour} />
                                     </div>
                                     <div className="measurable">
@@ -209,6 +214,19 @@ const TodaysHabits = (props) => {
                         <ModalFooter>
                             <Button color="success" onClick={addItem}>Save</Button>{' '}
                             <Button color="secondary" onClick={toggle}>Cancel</Button>
+                        </ModalFooter>
+                    </Modal>
+                </div>
+                <div>
+                    <Modal isOpen={colourModal} toggle={colourToggle}>
+                        <ModalHeader toggle={colourToggle}>Colour Information</ModalHeader>
+                        <ModalBody>
+                            <div>
+                                <p>Please Insert a HEX Colour this can be chosen from: https://www.w3schools.com/colors/colors_picker.asp  </p>
+                            </div>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="secondary" onClick={colourToggle} >Cancel</Button>{' '}
                         </ModalFooter>
                     </Modal>
                 </div>

@@ -11,7 +11,8 @@ import {
     Modal,
     ModalHeader,
     ModalBody,
-    ModalFooter
+    ModalFooter,
+    FormText
 } from 'reactstrap';
 import { FaEdit } from 'react-icons/fa';
 import RepeatSelect from './RepeatSelect.js';
@@ -36,6 +37,11 @@ const HabitInKey = (props) => {
 
     const deleteToggle = () => setDeleteModal(!deleteModal);
     const toggle = () => setModal(!modal);
+
+    const [colourModal, setColourModal] = useState(false);
+    function colourToggle() {
+        setColourModal(!colourModal)
+    }
 
     //https://eager.io/blog/communicating-between-javascript-and-css-with-css-variables/
     //talk about this in write up 
@@ -183,7 +189,7 @@ const HabitInKey = (props) => {
 
                                             <div>
                                                 <div /*HexColorPicker color={colour} onChange={handleChange} */ />
-                                                <Label>Colour </Label>
+                                                <Label>Colour<span className="questionMark" onClick={colourToggle}>?</span></Label>
                                                 <Input type="text" name="colour" id="colour" onChange={handleInputChange} defaultValue={colour} />
                                             </div>
                                             <div className="measurable">
@@ -217,6 +223,19 @@ const HabitInKey = (props) => {
                         <ModalFooter>
                             <Button color="danger" onClick={deleteHabit}>Delete</Button>
                             <Button color="secondary" onClick={deleteToggle} >Cancel</Button>{' '}
+                        </ModalFooter>
+                    </Modal>
+                </div>
+                <div>
+                    <Modal isOpen={colourModal} toggle={colourToggle}>
+                        <ModalHeader toggle={colourToggle}>Colour Information</ModalHeader>
+                        <ModalBody>
+                            <div>
+                                <p>Please Insert a HEX Colour this can be chosen from: https://www.w3schools.com/colors/colors_picker.asp  </p>
+                            </div>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="secondary" onClick={colourToggle} >Cancel</Button>{' '}
                         </ModalFooter>
                     </Modal>
                 </div>

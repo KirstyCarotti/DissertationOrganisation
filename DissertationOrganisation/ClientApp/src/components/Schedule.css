@@ -45,3 +45,14 @@ td.dataCol{
     padding: unset;
     border-top: 1px solid #dee2e6;
 }
+
+.questionMark {
+    color:red;
+}
+
+    .questionMark:hover {
+        background-color: red;
+        border-radius:50%;
+        color: white; 
+        cursor: pointer;
+    }
