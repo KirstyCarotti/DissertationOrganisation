@@ -63,7 +63,7 @@ const List = (props) => {
     function addItem(e) {
         validate();
         if (titleValid) {
-            fetch('https://localhost:44388/api/listItems/',
+            fetch('http://kistee/api/listItems/',
                 {
                     method: "Post",
                     headers: {

@@ -9,7 +9,7 @@ const Datetime = (props) => {
 
 
     useEffect(() => {
-        fetch('https://localhost:44388/api/dateTime',
+        fetch('http://kistee/api/dateTime',
             {
                 method: "GET",
                 headers: {
@@ -30,7 +30,7 @@ const Datetime = (props) => {
         const target = event.target;
         const value = target.value;
 
-        fetch('https://localhost:44388/api/datetime',
+        fetch('http://kistee/api/datetime',
             {
                 method: "Put",
                 headers: {

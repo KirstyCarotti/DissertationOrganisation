@@ -12,7 +12,7 @@ import RepeatDayOption from './RepeatDayOption.js';
      const [repeatValues, setRepeatValues] = useState([]);
 
      useEffect(() => {
-             fetch('https://localhost:44388/api/repeatDays/',
+         fetch('http://kistee/api/repeatDays/',
                  {
                      method: "Get",
                      headers: {

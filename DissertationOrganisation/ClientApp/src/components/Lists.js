@@ -11,7 +11,7 @@ import './List.css';
      const [update, setUpdate] = useState(false);
      useEffect(() => {
 
-             fetch('https://localhost:44388/api/lists/',
+         fetch('http://kistee/api/lists/',
                  {
                      method: "get",
                      headers: {

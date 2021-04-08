@@ -94,7 +94,7 @@ const TodaysHabits = (props) => {
     }
 
     useEffect(() => {
-        fetch('https://localhost:44388/api/todaysHabits/',
+        fetch('http://kistee/api/todaysHabits/',
             {
                 method: "Get",
                 headers: {
@@ -113,7 +113,7 @@ const TodaysHabits = (props) => {
 
     function addItem(e) {
         toggle();
-        fetch('https://localhost:44388/api/habits/',
+        fetch('http://kistee/api/habits/',
             {
                 method: "Post",
                 headers: {

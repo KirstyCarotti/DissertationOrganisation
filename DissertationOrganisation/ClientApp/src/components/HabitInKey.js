@@ -47,7 +47,7 @@ const HabitInKey = (props) => {
     //talk about this in write up 
 
     useEffect(() => {
-        fetch('https://localhost:44388/api/habits/' + habit.id,
+        fetch('http://kistee/api/habits/' + habit.id,
             {
                 method: "Get",
                 headers: {
@@ -101,7 +101,7 @@ const HabitInKey = (props) => {
 
     function deleteHabit(e) {
         deleteToggle();
-        fetch('https://localhost:44388/api/habits/' + habit.id,
+        fetch('http://kistee/api/habits/' + habit.id,
             {
                 method: "Delete",
                 headers: {
@@ -117,7 +117,7 @@ const HabitInKey = (props) => {
     function handleSave(e) {
         setModal(false)
 
-        fetch('https://localhost:44388/api/habits/' + habit.id,
+        fetch('http://kistee/api/habits/' + habit.id,
             {
                 method: "Put",
                 headers: {

@@ -59,7 +59,7 @@ const ListItem = (props) => {
         if (titleValid) {
 
 
-            fetch('https://localhost:44388/api/listItems/' + id,
+            fetch('http://kistee/api/listItems/' + id,
                 {
                     method: "Put",
                     headers: {
@@ -95,7 +95,7 @@ const ListItem = (props) => {
     function deleteListItem(e) {
         toggle();
         deleteToggle();
-        fetch('https://localhost:44388/api/listItems/' + id,
+        fetch('http://kistee/api/listItems/' + id,
             {
                 method: "Delete",
                 headers: {

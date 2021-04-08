@@ -95,7 +95,7 @@ const ScheduleMinute = (props) => {
     function deleteEvent(e) {
         toggle();
         deleteToggle();
-        fetch('https://localhost:44388/api/events/' + event.id,
+        fetch('http://kistee/api/events/' + event.id,
             {
                 method: "Delete",
                 headers: {
@@ -111,7 +111,7 @@ const ScheduleMinute = (props) => {
 
     function editEvent(e) {
         if (titleValid && endDateValid && startTimeValid && endTimeValid && colourValid) {
-            fetch('https://localhost:44388/api/events/' + event.id,
+            fetch('http://kistee/api/events/' + event.id,
                 {
                     method: "put",
                     headers: {

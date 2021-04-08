@@ -206,7 +206,7 @@ const Schedule = (props) => {
     function addEvent(e) {
 
         if (titleValid && endDateValid && startTimeValid && endTimeValid && colourValid) {
-            fetch('https://localhost:44388/api/events/',
+            fetch('http://kistee/api/events/',
                 {
                     method: "Post",
                     headers: {
@@ -235,7 +235,7 @@ const Schedule = (props) => {
     }
 
     useEffect(() => {
-        fetch('https://localhost:44388/api/events',
+        fetch('http://kistee/api/events',
             {
                 method: "GET",
                 headers: {

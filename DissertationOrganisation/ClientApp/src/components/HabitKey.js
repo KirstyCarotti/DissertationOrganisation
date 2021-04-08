@@ -8,7 +8,7 @@ import HabitInKey from './HabitInKey.js';
      const [success, setSuccess] = useState(false);
 
      useEffect(() => {
-         fetch('https://localhost:44388/api/habits/',
+         fetch('http://kistee/api/habits/',
              {
                  method: "Get",
                  headers: {

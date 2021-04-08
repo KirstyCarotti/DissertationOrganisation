@@ -9,7 +9,7 @@ import './Habit.css';
      const [success, setSuccess] = useState(false);
 
      useEffect(() => {
-         fetch('https://localhost:44388/api/dateTimehabit/',
+         fetch('http://kistee/api/dateTimehabit/',
              {
                  method: "Get",
                  headers: {

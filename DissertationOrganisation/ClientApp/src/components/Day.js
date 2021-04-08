@@ -15,7 +15,7 @@ const Day = (props) => {
     const [date, setDate] = useState(day!=null? year + "-" + month + "-" + day : null);
     useEffect(() => {
         if (date != null) {
-            fetch('https://localhost:44388/api/dateTimeHabit/',
+            fetch('http://kistee/api/dateTimeHabit/',
                 {
                     method: "POST",
                     headers: {

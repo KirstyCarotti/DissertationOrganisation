@@ -10,7 +10,7 @@ import {
      const [repeatValues, setRepeatValues] = useState([]);
 
      useEffect(() => {
-             fetch('https://localhost:44388/api/repeat/',
+         fetch('http://kistee/api/repeat/',
                  {
                      method: "Get",
                      headers: {
