@@ -56,7 +56,7 @@ const Schedule = (props) => {
     const [repeat, setRepeat] = useState(null);
     const [repeatDays, setRepeatDays] = useState([]);
 
-    const [colour, setColour] = useState("");
+    const [colour, setColour] = useState("#207bd7");
     const [colourValid, setColourValid] = useState(false);
 
     const [isAllDay, setIsAllDay] = useState(false);
@@ -164,33 +164,37 @@ const Schedule = (props) => {
                 setEndDateValid(false)
             }
         }
-
-        if (startTime == null && !isAllDay) {
-            setStartTimeValid(false)
-        }else {
-            setStartTimeValid(true)
-        }
-
-        if (endTime == null && !isAllDay) {
-            setEndTimeValid(false)
-        } else {
-            if (startTime == null) {
-                setEndDateValid(false)
+        if (!isAllDay) {
+            if (startTime == null && !isAllDay) {
+                setStartTimeValid(false)
             } else {
-                var startSplit = startTime.split(':');
-                var endSplit = endTime.split(':');
-                if (parseInt(startSplit[0]) < parseInt(endSplit[0])) {
-                    setEndTimeValid(true)
-                } else if (parseInt(startSplit[0]) === parseInt(endSplit[0])) {
-                    if (parseInt(startSplit[1]) <= parseInt(endSplit[1])) {
+                setStartTimeValid(true)
+            }
+
+            if (endTime == null && !isAllDay) {
+                setEndTimeValid(false)
+            } else {
+                if (startTime == null) {
+                    setEndDateValid(false)
+                } else {
+                    var startSplit = startTime.split(':');
+                    var endSplit = endTime.split(':');
+                    if (parseInt(startSplit[0]) < parseInt(endSplit[0])) {
                         setEndTimeValid(true)
+                    } else if (parseInt(startSplit[0]) === parseInt(endSplit[0])) {
+                        if (parseInt(startSplit[1]) <= parseInt(endSplit[1])) {
+                            setEndTimeValid(true)
+                        } else {
+                            setEndTimeValid(false)
+                        }
                     } else {
                         setEndTimeValid(false)
                     }
-                } else {
-                    setEndTimeValid(false)
                 }
             }
+        } else {
+            setStartTimeValid(true)
+            setEndTimeValid(true)
         }
 
 
@@ -268,6 +272,19 @@ const Schedule = (props) => {
                         <th className= "scheduleTitle">Schedule</th>
                     </tr>
                 </thead>
+                <tr>
+                    <td className="timeCol">All Day</td>
+                    <td className="dataCol">
+                        <Container>
+                            <Row xs="1">
+                                <Col className="removePadding">
+                                    <ScheduleMinute timeBlock={"AllDay"}  events={events} setUpdate={setUpdate} update={update} />
+                                </Col>
+                            </Row>
+                        </Container>
+
+                    </td>
+                </tr>
                 {times.map(time =>
                     <tr key={time}>
                         <td className="timeCol">{time}</td>
