@@ -29,12 +29,21 @@ namespace DissertationOrganisation.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] TodaysHabits todaysHabits)
         {
+            var complete = todaysHabits.IsComplete;
+            if (todaysHabits.IsComplete == false && todaysHabits.IsMeasurable)
+            {
+                if(todaysHabits.NumberOfBlocksCompleted == todaysHabits.NumberOfBlocks)
+                {
+                    complete = true; 
+                }
+            }
             HabitComplete completeHabit = new HabitComplete
             {
                 Id = 0,
                 HabitId=todaysHabits.Id,
                 Date= dateTimeService.GetCurrentDateTime(),
-                IsComplete=todaysHabits.IsComplete
+                IsComplete=complete,
+                CompleteBlocks = todaysHabits.NumberOfBlocksCompleted
             }; 
             return CreatedAtAction("Get", new { id = completeHabit.Id }, habitService.UpdateHabitComplete(completeHabit));
         }

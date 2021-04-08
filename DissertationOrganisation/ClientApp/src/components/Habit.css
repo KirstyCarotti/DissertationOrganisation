@@ -118,3 +118,17 @@ table {
 .changeDisplay{
     display: inline-flex;
 }
+
+.fixed{
+    display: block; 
+    margin-left: 10px; 
+    position: relative;
+    float: left; 
+}
+
+.measurableHabit {
+    display: block;
+    overflow: auto;
+    text-align: center;
+    align-items: center;
+}

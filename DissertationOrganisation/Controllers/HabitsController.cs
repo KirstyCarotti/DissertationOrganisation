@@ -88,15 +88,19 @@ namespace DissertationOrganisation.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] HabitModel habitModel)
         {
-            RepeatDays[] repeatDays = habitModel.RepeatDays.Select(o => (RepeatDays)o).ToArray();
             RepeatDays? result = null;
-            foreach (RepeatDays f in repeatDays)
+            if (habitModel.RepeatDays!=null)
             {
-                result |= (RepeatDays)f;
-            }
-            if (habitModel.Repeat == null || habitModel.Repeat != Repeat.Weekly)
-            {
-                result = null;
+                RepeatDays[] repeatDays = habitModel.RepeatDays.Select(o => (RepeatDays)o).ToArray();
+
+                foreach (RepeatDays f in repeatDays)
+                {
+                    result |= (RepeatDays)f;
+                }
+                if (habitModel.Repeat == null || habitModel.Repeat != Repeat.Weekly)
+                {
+                    result = null;
+                }
             }
             Habit habit = new Habit
             {

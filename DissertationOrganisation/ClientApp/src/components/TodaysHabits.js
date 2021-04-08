@@ -54,6 +54,11 @@ const TodaysHabits = (props) => {
     const [isMeasurable, setIsMeasurable] = useState(false);
     const [refresh, setRefresh] = useState(false);
 
+    const [numberOfBlocks, setNumberOfBlocks] = useState(0);
+    const [blocksValid, setBlocksValid] = useState(false);
+
+    const [representationOfBlocks, setRepresentationOfBlocks] = useState("");
+
     const [colourModal, setColourModal] = useState(false);
     function colourToggle() {
         setColourModal(!colourModal)
@@ -64,10 +69,10 @@ const TodaysHabits = (props) => {
     };
 
     function toggle() {
+        console.log("here")
         setModal(!modal);
         isVisible ? setIsVisible(!isVisible) : setIsVisible(false); 
         setColour("#207bd7");
-        setIsMeasurable(false);
         setRepeatDays([]);
         setRepeat(null);
         setEndDate(null);
@@ -99,6 +104,12 @@ const TodaysHabits = (props) => {
         else if (name == "colour")
         {
             setColour(value);
+        }
+        else if (name == "numberOfBlocks") {
+            setNumberOfBlocks(value);
+        }
+        else if (name == "representationOfBlocks") {
+            setRepresentationOfBlocks(value);
         }
         validate()
 
@@ -152,6 +163,17 @@ const TodaysHabits = (props) => {
             setColourValid(false);
         }
 
+        if (isMeasurable) {
+            var reg = new RegExp('^[0-9]+$');
+            if (numberOfBlocks != "" && reg.test(numberOfBlocks)) {
+                setBlocksValid(true);
+            } else {
+                setBlocksValid(false)
+            }
+        } else {
+            setBlocksValid(true)
+        }
+
     }
 
 
@@ -174,7 +196,7 @@ const TodaysHabits = (props) => {
     }, [currentUpdate, refresh])
 
     function addItem(e) {
-        if (nameValid && endDateValid && startDateValid && colourValid) {
+        if (nameValid && endDateValid && startDateValid && colourValid && blocksValid) {
             fetch('https://localhost:44388/api/habits/',
                 {
                     method: "Post",
@@ -191,7 +213,9 @@ const TodaysHabits = (props) => {
                         repeat: repeat,
                         repeatDays: repeatDays,
                         colour: colour,
-                        measurable: isMeasurable
+                        mesurable: isMeasurable,
+                        numberOfBlocks: parseInt(numberOfBlocks),
+                        representationOfBlocks: representationOfBlocks
                     }),
                 })
                 .then(needUpdate(!currentUpdate))
@@ -204,7 +228,7 @@ const TodaysHabits = (props) => {
 
     useEffect(() => {
         validate();
-    }, [name, endDate, startDate, colour])
+    }, [name, endDate, startDate, colour, numberOfBlocks])
 
     if (success) {
         return (
@@ -217,7 +241,7 @@ const TodaysHabits = (props) => {
                     </div>
                     <CardBody>
                             {todaysHabits.map(habit =>
-                                <TodaysHabit key={habit.id} id={habit.id} name={habit.name} isComplete={habit.isComplete} needUpdate={needUpdate} currentUpdate={currentUpdate}/>
+                                <TodaysHabit key={habit.id} id={habit.id} name={habit.name} isComplete={habit.isComplete} isMeasurable={habit.isMeasurable} numberOfBlocks={habit.numberOfBlocks} numberOfBlocksCompleted={habit.numberOfBlocksCompleted} needUpdate={needUpdate} currentUpdate={currentUpdate} />
                             )}
                     </CardBody>
                 </Card>
@@ -279,8 +303,32 @@ const TodaysHabits = (props) => {
                                             <div className="weekly">
                                                 <RepeatDays isVisible={isVisible} repeatDays={repeatDays} setRepeatDays={setRepeatDays} />
                                             </div>
-                                            </Col>
+                                        </Col>
                                     </Row>
+                                    {isMeasurable &&
+                                        <div>
+                                        <div className="habitDate">
+                                            <Label>Habit Split into</Label>
+                                            <Input
+                                                className="date"
+                                                type="text"
+                                                name="numberOfBlocks"
+                                                id="blocks"
+                                                onChange={handleInputChange}
+                                                invalid={!blocksValid} />
+                                            {!blocksValid && <FormFeedback>Must be an integer</FormFeedback>}
+                                        </div>
+                                            <div className="endDate">
+                                                <Label>blocks of:</Label>
+                                                <Input
+                                                    className="date"
+                                                    type="text"
+                                                    name="representationOfBlocks"
+                                                    id="infoBlocks"
+                                                    onChange={handleInputChange} />
+                                            </div>
+                                    </div>
+                                    }
                                 </FormGroup>
                             </Form>
                         </ModalBody>

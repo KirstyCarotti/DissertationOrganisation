@@ -14,5 +14,7 @@ namespace DissertationOrganisation.Models
         public DateTime Date { get; set; }
         public bool IsComplete { get; set; }
 
+        public int? CompleteBlocks { get; set; }
+
     }
 }

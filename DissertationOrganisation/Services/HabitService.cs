@@ -46,8 +46,6 @@ namespace DissertationOrganisation.Services
 
         public IEnumerable<TodaysHabits> GetTodaysHabits(DateTime current)
          {
-            //Todo getPage Date time? 
-           //DateTime current = _dateTimeService.GetCurrentDateTime();
 
             var todaysHabits = new List<TodaysHabits>(); 
             var habits = _context.Habits.ToList();
@@ -59,15 +57,43 @@ namespace DissertationOrganisation.Services
                     .Where(x=> x.HabitId == habit.Id)
                     .Where(x => x.Date.Year == current.Year && x.Date.Month == current.Month && x.Date.Day == current.Day)?
                     .LastOrDefault()?.IsComplete ;
+                var completedBlocks = completed
+                                .Where(x => x.HabitId == habit.Id)
+                                .Where(x => x.Date.Year == current.Year && x.Date.Month == current.Month && x.Date.Day == current.Day)?
+                                .LastOrDefault()?.CompleteBlocks; 
+
+                if(habit.NumberOfBlocks < completedBlocks)
+                {
+                    completedBlocks = habit.NumberOfBlocks;
+                }
+
+                if(isComplete!= null)
+                {
+                    if (habit.NumberOfBlocks == completedBlocks )
+                    {
+                        isComplete = true;
+                    }
+                    else if (habit.Mesurable)
+                    {
+                        isComplete = false; 
+                    }
+                }
+                else
+                {
+                    isComplete = false; 
+                }
 
                 var todayHabit = new TodaysHabits
                 {
                     Id = habit.Id,
                     Name = habit.Name,
                     Colour = habit.Colour,
-                    IsComplete = isComplete != null ? (bool)isComplete : false 
+                    IsComplete = (bool)isComplete,
+                    IsMeasurable = habit.Mesurable,
+                    NumberOfBlocks = habit.NumberOfBlocks,
+                    NumberOfBlocksCompleted= completedBlocks
+
                 };
-                //TODO Make compare date functions > < == 
                 if (CompareDateLessThanOrEqual(habit.StartDate, current))
                 {
                     //if the habit is weekly and todays DAY is the same as one of the days of the habit 

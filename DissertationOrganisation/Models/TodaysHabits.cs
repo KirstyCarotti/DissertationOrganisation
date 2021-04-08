@@ -11,5 +11,8 @@ namespace DissertationOrganisation.Models
         public string Name { get; set; }
         public string Colour { get; set; }
         public bool IsComplete { get; set; }
+        public bool IsMeasurable { get; set; }
+        public int? NumberOfBlocks { get; set; }
+        public int? NumberOfBlocksCompleted { get; set; }
     }
 }

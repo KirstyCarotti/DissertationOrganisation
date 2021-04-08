@@ -19,7 +19,7 @@ import RepeatSelect from './RepeatSelect.js';
 import RepeatDays from './RepeatDays.js';
 
 const HabitInKey = (props) => {
-    const {habit, update, setUpdate } = props;
+    const { habit, update, setUpdate } = props;
 
     const [colour, setColour] = useState("#207bd7");
     const [colourValid, setColourValid] = useState(false);
@@ -39,6 +39,12 @@ const HabitInKey = (props) => {
     const [repeat, setRepeat] = useState(null);
     const [repeatDays, setRepeatDays] = useState([]);
 
+    const [numberOfBlocks, setNumberOfBlocks] = useState();
+    const [blocksValid, setBlocksValid] = useState(false);
+
+    const [representationOfBlocks, setRepresentationOfBlocks] = useState("");
+
+
     const [deleteModal, setDeleteModal] = useState(false);
     const [modal, setModal] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
@@ -52,6 +58,7 @@ const HabitInKey = (props) => {
         setColourModal(!colourModal)
     }
 
+    console.log(isMeasurable)
     //https://eager.io/blog/communicating-between-javascript-and-css-with-css-variables/
     //talk about this in write up 
 
@@ -66,14 +73,17 @@ const HabitInKey = (props) => {
             })
             .then(res => res.json())
             .then(response => {
+                console.log(response)
                 setColour(response.colour != null ? response.colour : "");
-                setIsMeasurable(response.isMeasurable);
+                setIsMeasurable(response.mesurable);
                 setRepeatDays(response.repeatDays);
                 setRepeat(response.repeat);
                 setEndDate(response.endDate?.split('T')[0]);
                 setStartDate(response.startDate.split('T')[0]);
                 setDescription(response.description);
                 setName(response.name);
+                setNumberOfBlocks(response.numberOfBlocks);
+                setRepresentationOfBlocks(response.representationOfBlocks);
                 setSuccess(true)
             })
             .catch(e => console.log(e));
@@ -83,7 +93,7 @@ const HabitInKey = (props) => {
 
     useEffect(() => {
         validate();
-    }, [name, endDate, startDate, colour])
+    }, [name, endDate, startDate, colour, numberOfBlocks])
 
     function handleInputChange(event) {
         const target = event.target;
@@ -107,6 +117,12 @@ const HabitInKey = (props) => {
         }
         else if (name == "colour") {
             setColour(value);
+        }
+        else if (name == "numberOfBlocks") {
+            setNumberOfBlocks(value);
+        }
+        else if (name == "representationOfBlocks") {
+            setRepresentationOfBlocks(value);
         }
         validate(); 
     }
@@ -159,6 +175,17 @@ const HabitInKey = (props) => {
             setColourValid(false);
         }
 
+        if (isMeasurable) {
+            var reg = new RegExp('^[0-9]+$');
+            if (numberOfBlocks != "" && reg.test(numberOfBlocks)) {
+                setBlocksValid(true);
+            } else {
+                setBlocksValid(false)
+            }
+        } else {
+            setBlocksValid(true)
+        }
+
     }
 
 
@@ -178,7 +205,7 @@ const HabitInKey = (props) => {
     }
 
     function handleSave(e) {
-        if (nameValid && endDateValid && startDateValid && colourValid) {
+        if (nameValid && endDateValid && startDateValid && colourValid && blocksValid) {
             fetch('https://localhost:44388/api/habits/' + habit.id,
                 {
                     method: "Put",
@@ -195,7 +222,9 @@ const HabitInKey = (props) => {
                         repeat: repeat,
                         repeatDays: repeatDays,
                         colour: colour,
-                        measurable: isMeasurable
+                        mesurable: isMeasurable,
+                        numberOfBlocks: parseInt(numberOfBlocks),
+                        representationOfBlocks: representationOfBlocks
                     }),
                 }).then(setUpdate(!update))
                 .then(setModal(!modal))
@@ -271,6 +300,34 @@ const HabitInKey = (props) => {
                                             </div>
                                         </Col>
                                     </Row>
+                                    {isMeasurable &&
+                                        <div>
+                                            <div className="habitDate">
+                                                <Label>Habit Split into</Label>
+                                                <Input
+                                                    className="date"
+                                                    type="text"
+                                                    name="numberOfBlocks"
+                                                    id="blocks"
+                                                onChange={handleInputChange}
+                                                defaultValue={numberOfBlocks}
+                                                invalid={!blocksValid}
+                                            />
+                                                {!blocksValid && <FormFeedback>Must be an integer</FormFeedback>}
+                                            </div>
+                                            <div className="endDate">
+                                                <Label>blocks of:</Label>
+                                                <Input
+                                                    className="date"
+                                                    type="text"
+                                                    name="representationOfBlocks"
+                                                id="infoBlocks"
+                                                defaultValue={representationOfBlocks}
+                                                onChange={handleInputChange}
+                                            />
+                                            </div>
+                                        </div>
+                                    }
                                 </FormGroup>
                             </Form>
                         </ModalBody>
