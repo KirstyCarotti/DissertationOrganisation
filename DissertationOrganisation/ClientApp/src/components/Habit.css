@@ -114,3 +114,7 @@ table {
 .showHabits {
     display: flex;
 }
+
+.changeDisplay{
+    display: inline-flex;
+}

@@ -12,7 +12,7 @@ import {
     ModalHeader,
     ModalBody,
     ModalFooter,
-    FormText
+    FormFeedback
 } from 'reactstrap';
 import { FaEdit } from 'react-icons/fa';
 import RepeatSelect from './RepeatSelect.js';
@@ -22,11 +22,20 @@ const HabitInKey = (props) => {
     const {habit, update, setUpdate } = props;
 
     const [colour, setColour] = useState("#207bd7");
+    const [colourValid, setColourValid] = useState(false);
+
     const [isMeasurable, setIsMeasurable] = useState(false);
+
     const [name, setName] = useState("");
+    const [nameValid, setNameValid] = useState(false);
+
     const [description, setDescription] = useState("");
     const [startDate, setStartDate] = useState(null);
+    const [startDateValid, setStartDateValid] = useState(false);
+
     const [endDate, setEndDate] = useState(null);
+    const [endDateValid, setEndDateValid] = useState(false);
+
     const [repeat, setRepeat] = useState(null);
     const [repeatDays, setRepeatDays] = useState([]);
 
@@ -71,6 +80,11 @@ const HabitInKey = (props) => {
 
     }, [])
 
+
+    useEffect(() => {
+        validate();
+    }, [name, endDate, startDate, colour])
+
     function handleInputChange(event) {
         const target = event.target;
         const value = target.value;
@@ -94,9 +108,58 @@ const HabitInKey = (props) => {
         else if (name == "colour") {
             setColour(value);
         }
-
+        validate(); 
     }
 
+    function validate() {
+
+        if (name.length <= 0) {
+            setNameValid(false)
+        } else {
+            setNameValid(true)
+        }
+
+        if (startDate == null) {
+            setStartDateValid(false);
+        } else {
+            setStartDateValid(true)
+        }
+
+        if (endDate == null) {
+            setEndDateValid(true);
+        } else {
+            if (startDate != null) {
+                var startSplit = startDate.split('-');
+                var endSplit = endDate.split('-');
+                if (parseInt(startSplit[0]) < parseInt(endSplit[0])) {
+                    setEndDateValid(true)
+                } else if (parseInt(startSplit[0]) === parseInt(endSplit[0])) {
+                    if (parseInt(startSplit[1]) < parseInt(endSplit[1])) {
+                        setEndDateValid(true)
+                    } else if (parseInt(startSplit[1]) === parseInt(endSplit[1])) {
+                        if (parseInt(startSplit[2]) <= parseInt(endSplit[2])) {
+                            setEndDateValid(true)
+                        } else {
+                            setEndDateValid(false)
+                        }
+                    } else {
+                        setEndDateValid(false)
+                    }
+                } else {
+                    setEndDateValid(false)
+                }
+            } else {
+                setEndDateValid(false)
+            }
+        }
+
+        if (colour.length === 7 && colour.split("")[0] === '#') {
+            setColourValid(true)
+        } else {
+            setColourValid(false);
+        }
+
+    }
 
 
     function deleteHabit(e) {
@@ -115,30 +178,29 @@ const HabitInKey = (props) => {
     }
 
     function handleSave(e) {
-        setModal(false)
-
-        fetch('https://localhost:44388/api/habits/' + habit.id,
-            {
-                method: "Put",
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    Id: habit.id,
-                    name: name,
-                    description: description,
-                    startDate: startDate,
-                    endDate: endDate,
-                    repeat: repeat,
-                    repeatDays: repeatDays,
-                    colour: colour,
-                    measurable: isMeasurable
-                }),
-            })
-            .catch(e => console.log(e));
-        setUpdate(!update)
-        console.log(colour)
+        if (nameValid && endDateValid && startDateValid && colourValid) {
+            fetch('https://localhost:44388/api/habits/' + habit.id,
+                {
+                    method: "Put",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        Id: habit.id,
+                        name: name,
+                        description: description,
+                        startDate: startDate,
+                        endDate: endDate,
+                        repeat: repeat,
+                        repeatDays: repeatDays,
+                        colour: colour,
+                        measurable: isMeasurable
+                    }),
+                }).then(setUpdate(!update))
+                .then(setModal(!modal))
+                .catch(e => console.log(e));
+        }
     }
     if (success) {
         return (
@@ -155,7 +217,8 @@ const HabitInKey = (props) => {
                             <Form>
                                 <FormGroup>
                                     <Label>Name</Label>
-                                    <Input type="text" name="name" id="name" onChange={handleInputChange} defaultValue={name} />
+                                    <Input invalid={!nameValid} type="text" name="name" id="name" onChange={handleInputChange} defaultValue={name} />
+                                    {!nameValid && <FormFeedback >Title cannot be empty</FormFeedback>}
                                     <Label>Description</Label>
                                     <Input type="textarea" name="description" id="exampleText" onChange={handleInputChange} defaultValue={description} />
                                     <div className="habitDate">
@@ -167,7 +230,9 @@ const HabitInKey = (props) => {
                                             id="startDate"
                                             defaultValue={startDate}
                                             onChange={handleInputChange}
+                                            invalid={!startDateValid}
                                         />
+                                        {!startDateValid && <FormFeedback className="dat">cannot be empty</FormFeedback>}
                                     </div>
                                     <div className="endDate">
                                         <Label>End Date</Label>
@@ -178,9 +243,11 @@ const HabitInKey = (props) => {
                                             id="endDate"
                                             defaultValue={endDate}
                                             onChange={handleInputChange}
+                                            invalid={!endDateValid}
                                         />
+                                        {!endDateValid && <FormFeedback >End Date cannot be before start date</FormFeedback>}
                                     </div>
-                                    <Row>
+                                    <Row className="changeDisplay">
                                         <Col>
                                             <div className="repeat">
                                                 <Label>Repeat</Label>
@@ -190,7 +257,8 @@ const HabitInKey = (props) => {
                                             <div>
                                                 <div /*HexColorPicker color={colour} onChange={handleChange} */ />
                                                 <Label>Colour<span className="questionMark" onClick={colourToggle}>?</span></Label>
-                                                <Input type="text" name="colour" id="colour" onChange={handleInputChange} defaultValue={colour} />
+                                                <Input invalid={!colourValid} type="text" name="colour" id="colour" onChange={handleInputChange} defaultValue={colour} />
+                                                {!colourValid && <FormFeedback>Must be a valid hex colour. A # followed by 6 letters or numbers </FormFeedback>}
                                             </div>
                                             <div className="measurable">
                                                 <Input type="checkbox" name="measurable" checked={isMeasurable} onChange={handleInputChange} />

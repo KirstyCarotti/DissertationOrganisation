@@ -17,7 +17,7 @@ import {
     FormGroup,
     Label,
     Input,
-    FormText
+    FormFeedback
 } from 'reactstrap';
 import { FaRegPlusSquare } from 'react-icons/fa';
 import RepeatSelect from './RepeatSelect.js';
@@ -31,18 +31,28 @@ const TodaysHabits = (props) => {
     const [todaysHabits, setTodaysHabits] = useState([]);
     const [success, setSuccess] = useState(false);
     const [modal, setModal] = useState(false);
+
     const [name, setName] = useState("");
+    const [nameValid, setNameValid] = useState(false);
+
     const [description, setDescription] = useState("");
+
     const [startDate, setStartDate] = useState(null);
+    const [startDateValid, setStartDateValid] = useState(false);
+
     const [endDate, setEndDate] = useState(null);
+    const [endDateValid, setEndDateValid] = useState(false);
+
     const [repeat, setRepeat] = useState(null);
     const [repeatDays, setRepeatDays] = useState([]);
     const [isVisible, setIsVisible] = useState(false);
   //  const [displayColourPicker, setDisplayColourPicker] = useState(false)
+
     const [colour, setColour] = useState("#207bd7");
+    const [colourValid, setColourValid] = useState(false);
+
     const [isMeasurable, setIsMeasurable] = useState(false);
     const [refresh, setRefresh] = useState(false);
-
 
     const [colourModal, setColourModal] = useState(false);
     function colourToggle() {
@@ -90,8 +100,60 @@ const TodaysHabits = (props) => {
         {
             setColour(value);
         }
+        validate()
+
 
     }
+    function validate() {
+
+        if (name.length <= 0) {
+            setNameValid(false)
+        } else {
+            setNameValid(true)
+        }
+
+        if (startDate == null) {
+            setStartDateValid(false);
+        } else {
+            setStartDateValid(true)
+        }
+
+        if (endDate == null) {
+            setEndDateValid(true);
+        } else {
+            if (startDate != null) {
+                var startSplit = startDate.split('-');
+                var endSplit = endDate.split('-');
+                if (parseInt(startSplit[0]) < parseInt(endSplit[0])) {
+                    setEndDateValid(true)
+                } else if (parseInt(startSplit[0]) === parseInt(endSplit[0])) {
+                    if (parseInt(startSplit[1]) < parseInt(endSplit[1])) {
+                        setEndDateValid(true)
+                    } else if (parseInt(startSplit[1]) === parseInt(endSplit[1])) {
+                        if (parseInt(startSplit[2]) <= parseInt(endSplit[2])) {
+                            setEndDateValid(true)
+                        } else {
+                            setEndDateValid(false)
+                        }
+                    } else {
+                        setEndDateValid(false)
+                    }
+                } else {
+                    setEndDateValid(false)
+                }
+            } else {
+                setEndDateValid(false)
+            }
+        }
+
+        if (colour.length === 7 && colour.split("")[0] === '#') {
+            setColourValid(true)
+        } else {
+            setColourValid(false);
+        }
+
+    }
+
 
     useEffect(() => {
         fetch('https://localhost:44388/api/todaysHabits/',
@@ -112,32 +174,37 @@ const TodaysHabits = (props) => {
     }, [currentUpdate, refresh])
 
     function addItem(e) {
-        toggle();
-        fetch('https://localhost:44388/api/habits/',
-            {
-                method: "Post",
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    Id: 0,
-                    name: name,
-                    description: description,
-                    startDate: startDate,
-                    endDate: endDate,
-                    repeat: repeat,
-                    repeatDays: repeatDays,
-                    colour: colour,
-                    measurable: isMeasurable
-                }),
-            })
-            .then(needUpdate(!currentUpdate))
-            .then(setRefresh(refresh))
-            .catch(e => console.log(e));
-
+        if (nameValid && endDateValid && startDateValid && colourValid) {
+            fetch('https://localhost:44388/api/habits/',
+                {
+                    method: "Post",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        Id: 0,
+                        name: name,
+                        description: description,
+                        startDate: startDate,
+                        endDate: endDate,
+                        repeat: repeat,
+                        repeatDays: repeatDays,
+                        colour: colour,
+                        measurable: isMeasurable
+                    }),
+                })
+                .then(needUpdate(!currentUpdate))
+                .then(setRefresh(refresh))
+                .then(toggle())
+                .catch(e => console.log(e));
+        }
 
     }
+
+    useEffect(() => {
+        validate();
+    }, [name, endDate, startDate, colour])
 
     if (success) {
         return (
@@ -162,7 +229,8 @@ const TodaysHabits = (props) => {
                             <Form>
                                 <FormGroup>
                                     <Label>Name</Label>
-                                    <Input type="text" name="name" id="name" onChange={handleInputChange} placeholder="Item name" />
+                                    <Input invalid={!nameValid} type="text" name="name" id="name" onChange={handleInputChange} placeholder="Item name" />
+                                    {!nameValid && <FormFeedback >Title cannot be empty</FormFeedback>}
                                     <Label>Description</Label>
                                     <Input type="textarea" name="description" id="exampleText" onChange={handleInputChange} />
                                     <div className="habitDate">
@@ -173,7 +241,9 @@ const TodaysHabits = (props) => {
                                             name="startDate"
                                             id="exampleDate"
                                             onChange={handleInputChange}
-                                            />
+                                            invalid={!startDateValid}
+                                        />
+                                        {!startDateValid && <FormFeedback className="dat">cannot be empty</FormFeedback>}
                                     </div>
                                         <div className="endDate">
                                             <Label>End Date</Label>
@@ -183,9 +253,11 @@ const TodaysHabits = (props) => {
                                                 name="endDate"
                                             id="exampleDate"
                                             onChange={handleInputChange}
-                                                />
+                                            invalid={!endDateValid}
+                                        />
+                                        {!endDateValid && <FormFeedback >End Date cannot be before start date</FormFeedback>}
                                     </div>
-                                    <Row>
+                                    <Row className="changeDisplay">
                                         <Col>
                                     <div className ="repeat">
                                                 <Label>Repeat</Label>
@@ -195,8 +267,9 @@ const TodaysHabits = (props) => {
                                     <div>
                                         <div /*HexColorPicker color={colour} onChange={handleChange} */ />
                                                 <Label>Colour<span className="questionMark" onClick={colourToggle}>?</span></Label>
-                                                <Input type="text" name="colour" id="colour" onChange={handleInputChange} defaultValue={colour} />
-                                    </div>
+                                                <Input invalid={!colourValid} type="text" name="colour" id="colour" onChange={handleInputChange} defaultValue={colour} />
+                                                {!colourValid && <FormFeedback>Must be a valid hex colour. A # followed by 6 letters or numbers </FormFeedback>}
+                                        </div>
                                     <div className="measurable">
                                         <Input type="checkbox" name="measurable" checked={isMeasurable} onChange={handleInputChange} />
                                     <span>Is Measurable</span>

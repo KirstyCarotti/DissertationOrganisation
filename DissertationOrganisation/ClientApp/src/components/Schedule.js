@@ -44,7 +44,7 @@ const Schedule = (props) => {
 
     const [startDate, setStartDate] = useState(currentDate.split('T')[0]);
 
-    const [endDate, setEndDate] = useState(currentDate.split('T')[0]);
+    const [endDate, setEndDate] = useState(null);
     const [endDateValid, setEndDateValid] = useState(false);
 
     const [startTime, setStartTime] = useState(null);
@@ -142,7 +142,7 @@ const Schedule = (props) => {
         }
 
         if (endDate == null) {
-            setEndDate(true);
+            setEndDateValid(true);
         } else {
             var startSplit = startDate.split('-');
             var endSplit = endDate.split('-');
@@ -164,6 +164,8 @@ const Schedule = (props) => {
                 setEndDateValid(false)
             }
         }
+
+
         if (!isAllDay) {
             if (startTime == null && !isAllDay) {
                 setStartTimeValid(false)
