@@ -58,7 +58,6 @@ const HabitInKey = (props) => {
         setColourModal(!colourModal)
     }
 
-    console.log(isMeasurable)
     //https://eager.io/blog/communicating-between-javascript-and-css-with-css-variables/
     //talk about this in write up 
 
@@ -73,7 +72,6 @@ const HabitInKey = (props) => {
             })
             .then(res => res.json())
             .then(response => {
-                console.log(response)
                 setColour(response.colour != null ? response.colour : "");
                 setIsMeasurable(response.mesurable);
                 setRepeatDays(response.repeatDays);

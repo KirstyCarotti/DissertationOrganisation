@@ -132,3 +132,8 @@ table {
     text-align: center;
     align-items: center;
 }
+
+.eventHov {
+    color: white;
+    cursor: pointer;
+}

@@ -69,7 +69,6 @@ const TodaysHabits = (props) => {
     };
 
     function toggle() {
-        console.log("here")
         setModal(!modal);
         isVisible ? setIsVisible(!isVisible) : setIsVisible(false); 
         setColour("#207bd7");

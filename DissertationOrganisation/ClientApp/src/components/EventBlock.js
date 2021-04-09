@@ -224,8 +224,8 @@ const ScheduleMinute = (props) => {
     return (
         <div>
             <div>
-            <Col sm="6" key={event.id} className="event" style={{ backgroundColor: event.colour }}>
-                {event.id === isFirst.id && <span onClick={toggle} >{event.name}</span>}
+                <Col sm="6" key={event.id} className="event" style={{ backgroundColor: event.colour }}>
+                    {event.id === isFirst.id && <span className="eventHov" onClick={toggle} >{event.name}</span>}
                 {event.id != isFirst.id && <span >&nbsp;</span>}
             </Col>
              <Modal isOpen={modal} toggle={toggle}>
